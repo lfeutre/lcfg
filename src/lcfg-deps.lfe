@@ -4,7 +4,7 @@
 (defun clone-deps ()
   (lists:foreach
     (lambda (x)
-      (io:format "~ts~s~n" (list (lcfg-const:out-prompt) x)))
+      (io:format "~s~s~n" (list (lcfg-const:out-prompt) x)))
     (do-clone-deps)))
 
 (defun do-clone-deps ()
