@@ -24,6 +24,37 @@ installs it into ``~/.lfe/deps``).
 
 Usage is the same as any other Erlang or LFE library :-)
 
-```cl
+Given an ``lfe.config`` such as ``lfe.config.sample`` found in this repo:
 
+```cl
+#(project (#(deps (#("rvirding/lfe" "develop")
+                   #("lfex/lutil" "master")
+                   "dysinger/lfesl"
+                   "lfex/ltest"))))
+```
+
+Executing the following command will download the dependencies listed,
+circumventing ``rebar`` completely:
+
+```cl
+> (lcfg:clone-deps)
+lfetool »—> git: destination path 'deps/lfe' already exists ...
+lfetool »—> git: destination path 'deps/lutil' already exists ...
+lfetool »—> Cloning into deps/lfesl...
+lfetool »—> git: destination path 'deps/ltest' already exists ...
+ok
+>
+```
+
+Even though the configuration file is in LFE syntax, this is also usable from
+Erlang:
+
+```erlang
+1> lcfg:'clone-deps'().
+lfetool »—> git: destination path 'deps/lfe' already exists ...
+lfetool »—> git: destination path 'deps/lutil' already exists ...
+lfetool »—> Cloning into deps/lfesl...
+lfetool »—> git: destination path 'deps/ltest' already exists ...
+ok
+2>
 ```
