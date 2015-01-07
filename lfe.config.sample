@@ -1,0 +1,4 @@
+#(project (#(deps (#("rvirding/lfe" "develop")
+                   #("lfex/lutil" "master")
+                   "dysinger/lfesl"
+                   "lfex/ltest"))))

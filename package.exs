@@ -1,7 +1,8 @@
-Expm.Package.new(name: "lutil",
-                 description: "Utility functions and macros for LFE",
-                 version: "0.6.0",
-                 keywords: ["LFE", "Lisp", "Utility", "Library"],
+Expm.Package.new(name: "lcfg",
+                 description: "Management and use of lfe.config files",
+                 version: "0.0.1",
+                 keywords: ["LFE", "Lisp", "Utility", "Library",
+                            "Configuration"],
                  maintainers: [[name: "Duncan McGreggor",
                                 email: "oubiwann@cogitat.io"]],
-                 repositories: [[github: "lfex/lutil"]])
+                 repositories: [[github: "lfex/lcfg"]])
