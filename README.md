@@ -3,7 +3,16 @@
 <a href="resources/images/Illustration_Ficus_carica0.jpg"><img src="resources/images/Illustration_Ficus_carica0-small.jpg"/></a>
 
 
-## Introduction
+## Table of Contents
+
+* [Introduction](#introduction-)
+* [Dependencies](#dependencies-)
+* [Usage](#usage-)
+  * ``[project](#project-)``
+    * ``[deps](#deps-)``
+
+
+## Introduction [&#x219F;](#table-of-contents)
 
 
 ``lcfg`` is the library behind the ``lfe.config`` file.
@@ -14,17 +23,24 @@ be "bootstrapped" ([lfetool](https://github.com/lfe/lfetool) uses it and
 installs it into ``~/.lfe/deps``).
 
 
-## Dependencies
+## Dependencies [&#x219F;](#table-of-contents)
 
 This library requires only that [LFE](https://github.com/rvirding/lfe) be
 installed.
 
 
-## Usage
+## Usage [&#x219F;](#table-of-contents)
 
 Usage is the same as any other Erlang or LFE library :-)
 
-Given an ``lfe.config`` such as ``lfe.config.sample`` found in this repo:
+
+### ``project`` [&#x219F;](#table-of-contents)
+
+
+#### ``deps`` [&#x219F;](#table-of-contents)
+
+Given an ``lfe.config`` (such as ``lfe.config.sample`` found in this repo)
+with project dependencies defined:
 
 ```cl
 #(project (#(deps (#("rvirding/lfe" "develop")
