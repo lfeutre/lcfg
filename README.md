@@ -8,8 +8,8 @@
 * [Introduction](#introduction-)
 * [Dependencies](#dependencies-)
 * [Usage](#usage-)
-  * ``[project](#project-)``
-    * ``[deps](#deps-)``
+  * [project](#project-)
+    * [deps](#deps-)
 
 
 ## Introduction [&#x219F;](#table-of-contents)
