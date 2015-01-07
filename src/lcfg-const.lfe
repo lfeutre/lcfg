@@ -7,5 +7,5 @@
 (defun deps-dir () "deps")
 (defun github () "https://github.com/")
 (defun no-deps () "no dep overrides found in lfe.config")
-(defun out-prompt () (binary ("lfetool \x00BB;\x2014;> " utf8)))
+(defun out-prompt () "lfetool \x00BB;\x2014;> ")
 (defun newline () 10)
