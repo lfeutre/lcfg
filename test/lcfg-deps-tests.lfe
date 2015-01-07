@@ -1,4 +1,4 @@
-(defmodule lutil-cfg-tests
+(defmodule lcfg-deps-tests
   (behaviour ltest-unit)
   (export all)
   (import
@@ -8,94 +8,58 @@
 
 (include-lib "ltest/include/ltest-macros.lfe")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;; Constants
-;;;
+(deftest merge-deps-empty
+  (is-equal '() (lcfg-deps:merge-deps '() '())))
 
-(deftest constants
-  (is-equal "lfe.config" (lutil-cfg:config-file))
-  (is-equal "~/.lfe/lfe.config" (lutil-cfg:global-config))
-  (is-equal "lfe.config" (lutil-cfg:local-config))
-  (is-equal "deps" (lutil-cfg:deps-dir))
-  (is-equal "https://github.com/" (lutil-cfg:github)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;; Configuration
-;;;
-
-(deftest check-contents
-  (is-equal '(#(a 1) #(b 2)) (lutil-cfg:check-contents '(#(a 1) #(b 2)))))
-
-(deftest check-contents-fail-content-check
-  (try
-    (progn
-      (lutil-cfg:check-contents '(1 #(b 2)))
-      (error 'unexpected-test-success))
-    (catch (`#(,type ,value ,_)
-      (is-equal 'error type)
-      (is-equal
-        "Every top-level item in an lfe.config file needs to be a tuple."
-        value)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;; Project Dependencies
-;;;
-
-(deftest merge-project-deps-empty
-  (is-equal '() (lutil-cfg:merge-project-deps '() '())))
-
-(deftest merge-project-deps-only-one
+(deftest merge-deps-only-one
   (is-equal '("a" "b")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps ("a" "b")))))
               '()))
   (is-equal '(1 2)
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '()
               '(#(project (#(deps (1 2))))))))
 
-(deftest merge-project-deps-no-shared
+(deftest merge-deps-no-shared
   (is-equal '("a" "b" 1 2)
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps ("a" "b")))))
               '(#(project (#(deps (1 2)))))))
   (is-equal '(#("a/b" "c") "d/e" #("f/g" "h") "i/j")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps (#("a/b" "c") "d/e")))))
               '(#(project (#(deps (#("f/g" "h") "i/j"))))))))
 
-(deftest merge-project-deps-some-shared
+(deftest merge-deps-some-shared
   (is-equal '("a" "b" "c")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps ("a" "b")))))
               '(#(project (#(deps ("b" "c")))))))
   (is-equal '("d/e" #("a/b" "c") "i/j")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps (#("a/b" "c") "d/e")))))
               '(#(project (#(deps (#("a/b" "c") "i/j")))))))
   (is-equal '("d/e" #("a/b" "f") "i/j")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps (#("a/b" "c") "d/e")))))
               '(#(project (#(deps (#("a/b" "f") "i/j")))))))
   (is-equal '("d/e" #("a/b" "c") "i/j")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps (#("a/b" "f") "d/e")))))
               '(#(project (#(deps (#("a/b" "c") "i/j")))))))
   (is-equal '(#("a/b" "c") #("f/g" "h") "d/e")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps (#("a/b" "c") "d/e")))))
               '(#(project (#(deps (#("f/g" "h") "d/e"))))))))
 
-(deftest merge-project-deps-all-shared
+(deftest merge-deps-all-shared
   (is-equal '("a" "b")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps ("a" "b")))))
               '(#(project (#(deps ("a" "b")))))))
   (is-equal '(#("a/b" "c") "d/e")
-            (lutil-cfg:merge-project-deps
+            (lcfg-deps:merge-deps
               '(#(project (#(deps (#("a/b" "c") "d/e")))))
               '(#(project (#(deps (#("a/b" "c") "d/e"))))))))
 
@@ -146,35 +110,18 @@
   (is-equal "a/b" (lutil-cfg:get-repo #("a/b" "master")))
   (is-equal "a/b" (lutil-cfg:get-repo #("a/b" "develop"))))
 
-(deftest get-project-deps-empty
-  (is-equal '() (lutil-cfg:get-project-deps '())))
+(deftest get-deps-empty
+  (is-equal '() (lcfg-deps:get-deps '())))
 
-(deftest get-project-deps-no-deps
-  (is-equal '() (lutil-cfg:get-project-deps '(#(deps ())))))
+(deftest get-deps-no-deps
+  (is-equal '() (lcfg-deps:get-deps '(#(deps ())))))
 
-(deftest get-project-deps-no-deps-with-other
-  (is-equal '() (lutil-cfg:get-project-deps '(#(opts (#(opt-1 1)))))))
+(deftest get-deps-no-deps-with-other
+  (is-equal '() (lcfg-deps:get-deps '(#(opts (#(opt-1 1)))))))
 
-(deftest get-project-deps
-  (is-equal '("a" "b") (lutil-cfg:get-project-deps '(#(deps ("a" "b"))))))
+(deftest get-deps
+  (is-equal '("a" "b") (lcfg-deps:get-deps '(#(deps ("a" "b"))))))
 
-(deftest get-project-deps-with-other
-  (is-equal '("a" "b") (lutil-cfg:get-project-deps '(#(opts (#(opt-1 1)))
+(deftest get-deps-with-other
+  (is-equal '("a" "b") (lcfg-deps:get-deps '(#(opts (#(opt-1 1)))
                                                      #(deps ("a" "b"))))))
-(deftest get-project-empty
-  (is-equal '() (lutil-cfg:get-project '())))
-
-(deftest get-project-no-project
-  (is-equal '() (lutil-cfg:get-project '(#(lfe (#(opt-1 1)))))))
-
-(deftest get-project-no-deps
-  (is-equal '() (lutil-cfg:get-project '(#(project ())))))
-
-(deftest get-project-no-deps-with-other
-  (is-equal '(#(opt-1 1))
-            (lutil-cfg:get-project '(#(project (#(opt-1 1)))))))
-
-(deftest get-project-with-deps-with-other
-  (is-equal '(#(deps ("a" "b")))
-            (lutil-cfg:get-project '(#(lfe (#(opt-1 1)))
-                                     #(project (#(deps ("a" "b"))))))))
