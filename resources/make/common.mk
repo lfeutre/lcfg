@@ -35,13 +35,13 @@ get-lfetool: $(BIN_DIR)
 
 copy-appsrc:
 	@mkdir -p $(OUT_DIR)
-	@cp src/lutil.app.src ebin/lutil.app
+	@cp src/$(PROJECT).app.src ebin/$(PROJECT).app
 
 get-version:
 	@PATH=$(SCRIPT_PATH) $(LFETOOL) info version
 	@echo "Erlang/OTP, LFE, & library versions:"
 	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
-	-eval "lfe_io:format(\"~p~n\",[lutil:'get-versions'()])." \
+	-eval "lfe_io:format(\"~p~n\",['$(PROJECT)-util':'get-versions'()])." \
 	-noshell -s erlang halt
 
 get-erllibs:
@@ -140,11 +140,11 @@ push-all:
 	git push upstream --tags
 
 install: compile
-	@echo "Installing lutil ..."
+	@echo "Installing $(PROJECT) ..."
 	@PATH=$(SCRIPT_PATH) lfetool install lfe
 
 upload: $(EXPM) get-version
-	@echo "Preparing to upload lutil ..."
+	@echo "Preparing to upload $(PROJECT) ..."
 	@echo
 	@echo "Package file:"
 	@echo
