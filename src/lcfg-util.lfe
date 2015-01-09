@@ -6,4 +6,4 @@
 
 (defun get-versions ()
   (++ (lutil:get-versions)
-      `(,(get-version))))
+      `(#(lcfg ,(get-version)))))
