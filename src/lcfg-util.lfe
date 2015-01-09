@@ -2,7 +2,7 @@
   (export all))
 
 (defun get-version ()
-  (lutil:get-app--version 'lcfg))
+  (lutil:get-app-version 'lcfg))
 
 (defun get-versions ()
   (++ (lutil:get-versions)
