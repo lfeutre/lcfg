@@ -5,7 +5,8 @@
 
 (defun read-config
   ((`#(ok ,config-data))
-    (check-contents config-data))
+    (check-contents
+      (eval-contents config-data)))
   ;; If the file doesn't exist, let's just return an empty list
   ((`#(error #(none file enoent)))
     '())
@@ -39,6 +40,11 @@
   (let ((`#(ok ,cwd) (file:get_cwd)))
     cwd))
 
+(defun eval-contents (contents)
+  "Go line-by-line in the parsed config file and attempt to evaluate it, in
+  the event that any functions were called in the config file."
+  (lists:map #'lfe_eval:expr/1 contents))
+
 (defun check-contents (contents)
   "This function should be called immediately before the config data is
   passed to (orddict:from_list ...), as it will ensure that each top-level
@@ -47,4 +53,4 @@
   (if (lists:all #'is_tuple/1 contents)
       contents
       (error (++ "Every top-level item in an lfe.config file needs "
-                 "to be a tuple."))))
+                 "to be a tuple (or able to be evaluated as a tuple)."))))
