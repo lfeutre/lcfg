@@ -9,19 +9,19 @@
 (include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest get-project-empty
-  (is-equal '() (lutil-cfg:get-project '())))
+  (is-equal '() (lcfg-proj:get-project '())))
 
 (deftest get-project-no-project
-  (is-equal '() (lutil-cfg:get-project '(#(lfe (#(opt-1 1)))))))
+  (is-equal '() (lcfg-proj:get-project '(#(lfe (#(opt-1 1)))))))
 
 (deftest get-project-no-deps
-  (is-equal '() (lutil-cfg:get-project '(#(project ())))))
+  (is-equal '() (lcfg-proj:get-project '(#(project ())))))
 
 (deftest get-project-no-deps-with-other
   (is-equal '(#(opt-1 1))
-            (lutil-cfg:get-project '(#(project (#(opt-1 1)))))))
+            (lcfg-proj:get-project '(#(project (#(opt-1 1)))))))
 
 (deftest get-project-with-deps-with-other
   (is-equal '(#(deps ("a" "b")))
-            (lutil-cfg:get-project '(#(lfe (#(opt-1 1)))
+            (lcfg-proj:get-project '(#(lfe (#(opt-1 1)))
                                      #(project (#(deps ("a" "b"))))))))

@@ -65,50 +65,50 @@
 
 (deftest select-deps-no-shared
   (is-equal '("a" "b" 1 2)
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '("a" "b")
               '(1 2)))
   (is-equal '(#("a/b" "c") "d/e" #("f/g" "h") "i/j")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '(#("a/b" "c") "d/e")
               '(#("f/g" "h") "i/j"))))
 
 (deftest select-deps-some-shared
   (is-equal '("a" "b" "c")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '("a" "b")
               '("b" "c")))
   (is-equal '("d/e" #("a/b" "c") "i/j")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '(#("a/b" "c") "d/e")
               '(#("a/b" "c") "i/j")))
   (is-equal '("d/e" #("a/b" "f") "i/j")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '(#("a/b" "c") "d/e")
               '(#("a/b" "f") "i/j")))
   (is-equal '("d/e" #("a/b" "c") "i/j")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '(#("a/b" "f") "d/e")
               '(#("a/b" "c") "i/j")))
   (is-equal '(#("a/b" "c") #("f/g" "h") "d/e")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '(#("a/b" "c") "d/e")
               '(#("f/g" "h") "d/e"))))
 
 (deftest select-deps-all-shared
   (is-equal '("a" "b")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '("a" "b")
               '("a" "b")))
   (is-equal '(#("a/b" "c") "d/e")
-            (lutil-cfg:select-deps
+            (lcfg-deps:select-deps
               '(#("a/b" "c") "d/e")
               '(#("a/b" "c") "d/e"))))
 
 (deftest get-repo
-  (is-equal "a/b" (lutil-cfg:get-repo "a/b"))
-  (is-equal "a/b" (lutil-cfg:get-repo #("a/b" "master")))
-  (is-equal "a/b" (lutil-cfg:get-repo #("a/b" "develop"))))
+  (is-equal "a/b" (lcfg-deps:get-repo "a/b"))
+  (is-equal "a/b" (lcfg-deps:get-repo #("a/b" "master")))
+  (is-equal "a/b" (lcfg-deps:get-repo #("a/b" "develop"))))
 
 (deftest get-deps-empty
   (is-equal '() (lcfg-deps:get-deps '())))

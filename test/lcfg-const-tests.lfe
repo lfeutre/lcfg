@@ -1,16 +1,12 @@
 (defmodule lcfg-const-tests
   (behaviour ltest-unit)
-  (export all)
-  (import
-    (from ltest
-      (check-failed-is 2)
-      (check-wrong-is-exception 2))))
+  (export all))
 
 (include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest constants
-  (is-equal "lfe.config" (lutil-cfg:config-file))
-  (is-equal "~/.lfe/lfe.config" (lutil-cfg:global-config))
-  (is-equal "lfe.config" (lutil-cfg:local-config))
-  (is-equal "deps" (lutil-cfg:deps-dir))
-  (is-equal "https://github.com/" (lutil-cfg:github)))
+  (is-equal "lfe.config" (lcfg-const:config-file))
+  (is-equal "~/.lfe/lfe.config" (lcfg-const:global-config))
+  (is-equal "lfe.config" (lcfg-const:local-config))
+  (is-equal "deps" (lcfg-const:deps-dir))
+  (is-equal "https://github.com/" (lcfg-const:github)))
