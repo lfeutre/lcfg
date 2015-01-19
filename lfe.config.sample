@@ -2,3 +2,9 @@
                    #("lfex/lutil" "master")
                    "dysinger/lfesl"
                    "lfex/ltest"))))
+#(cfg-data (#(some (#(thing "else")
+                    #(or "other")
+                    #(can "be")
+                    #(configured "here")))))
+`#(opt-1 (,(lutil:get-lfe-version)))
+`#(opt-2 (#(data-from-config ,(lcfg:get-in 'local '(cfg-data some can)))))
