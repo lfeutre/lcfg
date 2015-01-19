@@ -74,3 +74,77 @@ lfetool ~>> git: destination path 'deps/ltest' already exists ...
 ok
 2>
 ```
+
+### Functions in config files
+
+lcfg supports functions in config files. In order to work, the top-level tuple
+for the config item needs to be ``backquote``'ed. For example, if the following\
+was saved to ``./lfe.local``:
+
+```cl
+#(project (#(deps (#("rvirding/lfe" "develop")
+                   #("lfex/lutil" "master")
+                   "dysinger/lfesl"
+                   "lfex/ltest"))))
+`#(opt-1 (,(lutil:get-lfe-version)))
+```
+
+When ``(lcfg-file:parse-local)`` is called, it would be rendered as:
+
+```cl
+> (lcfg-file:parse-local)
+(#(project
+   (#(deps
+      (#("rvirding/lfe" "develop")
+       #("lfex/lutil" "master")
+       "dysinger/lfesl"
+       "lfex/ltest"))))
+ #(opt-1 ("0.9.0"))
+```
+
+Note that when calling ``(lcfg-file:read-local)``, top-level ``backquote``ed
+items will be ignored, e.g.:
+
+```cl
+> (lcfg-file:read-local)
+(#(project
+   (#(deps
+      (#("rvirding/lfe" "develop")
+       #("lfex/lutil" "master")
+       "dysinger/lfesl"
+       "lfex/ltest"))))
+```
+
+### Referencing other config items
+
+lcfg supports the ability to extract items that were configured in different
+(static, unevaluated) sections. For example, given this configuration:
+
+```cl
+#(project (#(deps (#("rvirding/lfe" "develop")
+                   #("lfex/lutil" "master")
+                   "dysinger/lfesl"
+                   "lfex/ltest"))))
+#(cfg-data (#(some (#(thing "else")
+                    #(or "other")
+                    #(can "be")
+                    #(configured "here")))))
+`#(opt-1 (,(lutil:get-lfe-version)))
+`#(opt-2 (#(data-from-config ,(lcfg:get-in 'local '(cfg-data some can)))))
+```
+
+One can do this:
+
+```cl
+> (lcfg-file:parse-local)
+(#(project
+   (#(deps
+      (#("rvirding/lfe" "develop")
+       #("lfex/lutil" "master")
+       "dysinger/lfesl"
+       "lfex/ltest"))))
+ #(cfg-data
+   (#(some (#(thing "else") #(or "other") #(can "be") #(configured "here")))))
+ #(opt-1 ("0.9.0"))
+ #(opt-2 (#(data-from-config "be"))))
+```
