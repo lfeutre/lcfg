@@ -9,3 +9,4 @@ ebin/*.beam
 .rebar
 erl_crash.dump
 *.sw[po]
+log/*
