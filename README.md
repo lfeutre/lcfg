@@ -10,6 +10,8 @@
 * [Usage](#usage-)
   * [project](#project-)
     * [deps](#deps-)
+  * [Functions in config files](#functions-in-config-files-)
+  * [Referencing other config items](#referencing-other-config-items-)
 
 
 ## Introduction [&#x219F;](#table-of-contents)
@@ -75,7 +77,7 @@ ok
 2>
 ```
 
-### Functions in config files
+### Functions in config files [&#x219F;](#table-of-contents)
 
 lcfg supports functions in config files. In order to work, the top-level tuple
 for the config item needs to be ``backquote``'ed. For example, if the following\
@@ -115,7 +117,7 @@ items will be ignored, e.g.:
        "lfex/ltest"))))
 ```
 
-### Referencing other config items
+### Referencing other config items [&#x219F;](#table-of-contents)
 
 lcfg supports the ability to extract items that were configured in different
 (static, unevaluated) sections. For example, given this configuration:
