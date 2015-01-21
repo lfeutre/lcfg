@@ -5,7 +5,7 @@
             'get-in
             (list (lcfg-file:get-config ,cfg-type) (list ,@keys)))))
 
-(defun loaded-core ()
+(defun loaded-lcfg-core ()
   "This is just a dummy function for display purposes when including from the
   REPL (the last function loaded has its name printed in stdout).
 
