@@ -10,6 +10,7 @@
 * [Usage](#usage-)
   * [project](#project-)
     * [deps](#deps-)
+  * [logging](#logging-)
   * [Functions in config files](#functions-in-config-files-)
   * [Referencing other config items](#referencing-other-config-items-)
 
@@ -76,6 +77,23 @@ lfetool ~>> git: destination path 'deps/ltest' already exists ...
 ok
 2>
 ```
+
+
+### ``logging`` [&#x219F;](#table-of-contents)
+
+lcfg supports logging configuration. Currently the only supported logging
+backend is [lager](https://github.com/basho/lager). The top-level ``logging``
+configuration option has three sub-options:
+
+ * ``log-level``
+ * ``backend``
+ * ``options``
+
+The last is what gets passed to the backend. As such, it needs to hold all
+the information you want your backend to be configured with. See the
+[sample lfe.config file](lfe.config.sample) for a working example of a
+lager configuration.
+
 
 ### Functions in config files [&#x219F;](#table-of-contents)
 
