@@ -8,3 +8,19 @@
                     #(configured "here")))))
 `#(opt-1 (,(lutil:get-lfe-version)))
 `#(opt-2 (#(data-from-config ,(lcfg:get-in 'local '(cfg-data some can)))))
+#(logging (
+   #(log-level info)
+   #(backend lager)
+   #(options (#(lager_console_backend debug)
+              #(lager_file_backend (
+                #(file "log/error.log")
+                #(level error)
+                #(size 10485760)
+                #(date "$D0")
+                #(count 5)))
+              #(lager_file_backend (
+                #(file "log/console.log")
+                #(level info)
+                #(size 10485760)
+                #(date "$D0")
+                #(count 5)))))))
