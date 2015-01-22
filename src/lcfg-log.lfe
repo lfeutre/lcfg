@@ -6,16 +6,18 @@
 (defmodule lcfg-log
   (export all))
 
+(include-lib "lutil/include/core.lfe")
+
 (defun setup ()
   (setup (get-logging-config)))
 
 (defun setup (config)
-  (case (proplists:get_value 'backend config)
+  (case (get-in config 'backend)
     ('lager (setup-lager config))))
 
 (defun get-logging-config ()
   (let ((local (get-local-logging)))
-    (if (=/= local '())
+    (if (and (=/= local '()) (=/= local 'undefined))
         local
         (get-globgal-logging))))
 
@@ -29,12 +31,12 @@
   (('())
     '())
   ((config)
-    (proplists:get_value 'logging config '())))
+    (get-in config 'logging)))
 
 (defun setup-lager (config)
   (application:load 'lager)
   (application:set_env
     'lager
     'handlers
-    (proplists:get_value 'options config))
+    (get-in config 'options))
   (lager:start))
