@@ -14,7 +14,7 @@
   ((name) (when (is_atom name))
     (let ((filename (code:where_is_file (atom_to_list name))))
       (if (filelib:isfile filename)
-          (get-app-file filename)
+          (get-app-version filename)
           'undefined)))
   ((`#(ok (,app)))
     (get-in (element 3 app) 'vsn))
