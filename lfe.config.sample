@@ -1,4 +1,11 @@
-#(project (#(deps (#("rvirding/lfe" "develop")
+#(project (#(meta (#(keywords ("LFE", "Library", "API"))
+                   #(maintainers (
+                     (#(name "Alice") #(email "ali@ce.com"))
+                     (#(name "Bob") #(email "bo@b.com"))))
+                   #(repos (
+                     #(github "https://github.com/cool/thing")
+                     #(myhost "darcs://myhost.com/cool/thing-dev")))))
+           #(deps (#("rvirding/lfe" "develop")
                    #("lfex/lutil" "master")
                    "dysinger/lfesl"
                    "lfex/ltest"))))
