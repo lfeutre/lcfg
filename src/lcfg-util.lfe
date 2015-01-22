@@ -12,9 +12,10 @@
 
 (defun get-app-version
   ((name) (when (is_atom name))
-    (let ((filename (code:where_is_file (atom_to_list name))))
-      (if (filelib:isfile filename)
-          (get-app-version filename)
+    (let* ((filename (++ (atom_to_list name) ".app"))
+           (filepath (code:where_is_file filename)))
+      (if (filelib:is_file filepath)
+          (get-app-version filepath)
           'undefined)))
   ((`#(ok (,app)))
     (get-in (element 3 app) 'vsn))
