@@ -1,4 +1,5 @@
 # lcfg
+*The LFE library for managing and using lfe.config files*
 
 <a href="resources/images/Illustration_Ficus_carica0.jpg"><img src="resources/images/Illustration_Ficus_carica0-small.jpg"/></a>
 
