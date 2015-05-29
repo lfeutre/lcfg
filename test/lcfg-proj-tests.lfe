@@ -9,10 +9,10 @@
 (include-lib "ltest/include/ltest-macros.lfe")
 
 (deftest get-project-empty
-  (is-equal '() (lcfg-proj:get-project 'undefined))
+  (is-equal 'false (lcfg-proj:get-project 'undefined)))
 
 (deftest get-project-no-project
-  (is-equal '() (lcfg-proj:get-project '(#(lfe (#(opt-1 1)))))))
+  (is-equal 'undefined (lcfg-proj:get-project '(#(lfe (#(opt-1 1)))))))
 
 (deftest get-project-no-deps
   (is-equal '() (lcfg-proj:get-project '(#(project ())))))
