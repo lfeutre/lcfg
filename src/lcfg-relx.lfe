@@ -28,7 +28,9 @@
       #(extended_start_script ,(get-extended-start-script config))
       #(default_release sexpr ,(get-default-release config))
       #(release ,(get-release config))
-      #(overrides ,(get-overrides config)))))
+      #(overrides ,(get-overrides config))
+      #(overlay_vars ,(get-overlay-vars))
+      #(overlay ,(get-overlay)))))
 
 (defun get-paths (config)
   (lcfg-util:set-default
@@ -68,4 +70,14 @@
 (defun get-overrides (config)
   (lcfg-util:set-default
     (lcfg:get-in config '(relx overrides))
+    'undefined))
+
+(defun get-overlay-vars (config)
+  (lcfg-util:set-default
+    (lcfg:get-in config '(relx overlay_vars))
+    'undefined))
+
+(defun get-overlay (config)
+  (lcfg-util:set-default
+    (lcfg:get-in config '(relx overlay))
     'undefined))
