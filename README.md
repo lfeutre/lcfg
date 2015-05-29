@@ -11,6 +11,7 @@
 * [Usage](#usage-)
   * [project](#project-)
     * [deps](#deps-)
+    * [meta](#meta-)
   * [logging](#logging-)
   * [Functions in config files](#functions-in-config-files-)
   * [Referencing other config items](#referencing-other-config-items-)
@@ -47,10 +48,12 @@ Given an ``lfe.config`` (such as ``lfe.config.sample`` found in this repo)
 with project dependencies defined:
 
 ```cl
-#(project (#(deps (#("rvirding/lfe" "develop")
-                   #("lfex/lutil" "master")
-                   "dysinger/lfesl"
-                   "lfex/ltest"))))
+#(project
+  (#(deps
+    (#("rvirding/lfe" "develop")
+     #("lfex/lutil" "master")
+     "dysinger/lfesl"
+     "lfex/ltest"))))
 ```
 
 Executing the following command will download the dependencies listed,
@@ -79,6 +82,24 @@ ok
 2>
 ```
 
+#### ``meta`` [&#x219F;](#table-of-contents)
+
+lcfg also supports metadata, not unlike what Elixir's ``expm`` project originally supported.
+Here is an example:
+```cl
+#(project
+  (#(meta
+     (#(name lcfg)
+      #(description "A library for managing and using lfe.config files.")
+      #(version "0.0.2")
+      #(keywords ("LFE" "Lisp" "Library" "Configuration" "Utility"))
+      #(maintainers
+        ((#(name "Duncan McGreggor") #(email "oubiwann@gmail.com"))))
+      #(repos
+        (#(github "lfex/lcfg")))))))
+```
+
+If you also declare ``deps`` just know that ``meta`` and ``deps`` are siblings (keys in the same property list).
 
 ### ``logging`` [&#x219F;](#table-of-contents)
 
@@ -103,10 +124,12 @@ for the config item needs to be ``backquote``'ed. For example, if the following\
 was saved to ``./lfe.local``:
 
 ```cl
-#(project (#(deps (#("rvirding/lfe" "develop")
-                   #("lfex/lutil" "master")
-                   "dysinger/lfesl"
-                   "lfex/ltest"))))
+#(project
+  (#(deps
+    (#("rvirding/lfe" "develop")
+     #("lfex/lutil" "master")
+     "dysinger/lfesl"
+     "lfex/ltest"))))
 `#(opt-1 (,(lutil:get-lfe-version)))
 ```
 
