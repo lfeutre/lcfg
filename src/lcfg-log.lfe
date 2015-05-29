@@ -12,31 +12,31 @@
   (setup (get-logging-config)))
 
 (defun setup (config)
-  (case (get-in config 'backend)
+  (case (lutil-type:get-in config '(backend))
     ('lager (setup-lager config))))
 
 (defun get-logging-config ()
   (let ((local (get-local-logging)))
     (if (and (=/= local '()) (=/= local 'undefined))
         local
-        (get-globgal-logging))))
+        (get-global-logging))))
 
 (defun get-local-logging ()
   (get-logging (lcfg-file:parse-local)))
 
-(defun get-globgal-logging ()
+(defun get-global-logging ()
   (get-logging (lcfg-file:parse-global)))
 
 (defun get-logging
   (('())
     '())
   ((config)
-    (get-in config 'logging)))
+    (lutil-type:get-in config '(logging))))
 
 (defun setup-lager (config)
   (application:load 'lager)
   (application:set_env
     'lager
     'handlers
-    (get-in config 'options))
+    (lutil-type:get-in config '(options)))
   (lager:start))
