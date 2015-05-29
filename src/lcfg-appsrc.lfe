@@ -28,40 +28,40 @@
       #(start_phases ,(get-start-phases config))
       ;; runtime_dependencies will be skipped until it's declared
       ;; as stabilized by the OTP team
-      ;;#(runtime_dependencies ,(get-in config 'project 'app 'runtime-dependencies))
+      ;;#(runtime_dependencies ,(lutil-type:get-in config 'project 'app 'runtime-dependencies))
       )))
 
 (defun get-modules (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'modules)
+    (lutil-type:get-in config '(project app modules))
     (lists:map
       #'list_to_atom/1
       (lcfg-util:get-source-files 'no-extensions))))
 
 (defun get-max-t (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'max-t) 'infinity))
+    (lutil-type:get-in config '(project app max-t)) 'infinity))
 
 (defun get-registered (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'registered) '()))
+    (lutil-type:get-in config '(project app registered)) '()))
 
 (defun get-included-applications (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'included-applications) '()))
+    (lutil-type:get-in config '(project app included-applications)) '()))
 
 (defun get-applications (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'applications) '()))
+    (lutil-type:get-in config '(project app applications)) '()))
 
 (defun get-env (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'env) '()))
+    (lutil-type:get-in config '(project app env)) '()))
 
 (defun get-mod (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'mod) '()))
+    (lutil-type:get-in config '(project app mod)) '()))
 
 (defun get-start-phases (config)
   (lcfg-util:set-default
-    (get-in config 'project 'app 'start-phases) 'undefined))
+    (lutil-type:get-in config '(project app start-phases)) 'undefined))
