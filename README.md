@@ -13,7 +13,8 @@
     * [deps](#deps-)
     * [meta](#meta-)
   * [logging](#logging-)
-  * [relx](#relx-)  
+  * [application](#application-)
+  * [relx](#relx-)
   * [Functions in config files](#functions-in-config-files-)
   * [Referencing other config items](#referencing-other-config-items-)
 
