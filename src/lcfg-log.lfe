@@ -12,7 +12,7 @@
   (setup (get-logging-config)))
 
 (defun setup (config)
-  (case (lutil-type:get-in config '(backend))
+  (case (lcfg:get-in config '(backend))
     ('lager (setup-lager config))))
 
 (defun get-logging-config ()
@@ -31,12 +31,12 @@
   (('())
     '())
   ((config)
-    (lutil-type:get-in config '(logging))))
+    (lcfg:get-in config '(logging))))
 
 (defun setup-lager (config)
   (application:load 'lager)
   (application:set_env
     'lager
     'handlers
-    (lutil-type:get-in config '(options)))
+    (lcfg:get-in config '(options)))
   (lager:start))

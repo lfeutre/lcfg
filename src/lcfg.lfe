@@ -11,4 +11,6 @@
   (('local args)
     (lutil-type:get-in (lcfg-file:read-local) args))
   (('global args)
-    (lutil-type:get-in (lcfg-file:read-global) args)))
+    (lutil-type:get-in (lcfg-file:read-global) args))
+  ((config args)
+    (lutil-type:get-in config args)))
