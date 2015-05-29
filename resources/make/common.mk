@@ -24,12 +24,12 @@ LFETOOL=$(BIN_DIR)/lfetool
 else
 LFETOOL=lfetool
 endif
-ERL_LIBS = ..:../$(PROJECT):$(shell $(LFETOOL) info erllibs)
+ERL_LIBS = $(shell pwd):$(shell $(LFETOOL) info erllibs)
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 get-lfetool: $(BIN_DIR)
-	curl -L -o ./lfetool https://raw.githubusercontent.com/lfe/lfetool/stable/lfetool && \
+	curl -L -o ./lfetool https://raw.githubusercontent.com/lfe/lfetool/dev-v1/lfetool && \
 	chmod 755 ./lfetool && \
 	mv ./lfetool $(BIN_DIR)
 
@@ -110,7 +110,7 @@ compile-no-deps: clean-ebin
 
 compile-app-src:
 	@echo "Generating app.src file ..."
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfe -eval \
+	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfe -eval \
 	'(lcfg-appsrc:write "ebin/$(PROJECT).app")'
 
 clean: clean-ebin clean-eunit
