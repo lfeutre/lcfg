@@ -13,7 +13,7 @@
     * [deps](#deps-)
     * [meta](#meta-)
   * [logging](#logging-)
-  * [application](#application-)
+  * [app.src](#app.src-)
   * [relx](#relx-)
   * [Functions in config files](#functions-in-config-files-)
   * [Referencing other config items](#referencing-other-config-items-)

@@ -13,7 +13,6 @@ endif
 LIB = $(PROJECT)
 DEPS = ./deps
 BIN_DIR = ./bin
-EXPM = $(BIN_DIR)/expm
 SOURCE_DIR = ./src
 OUT_DIR = ./ebin
 TEST_DIR = ./test
@@ -24,7 +23,10 @@ LFETOOL=$(BIN_DIR)/lfetool
 else
 LFETOOL=lfetool
 endif
+RELEASE_DIR = ./release
+RELX_CFG = $(RELEASE_DIR)/relx.config
 ERL_LIBS = $(shell pwd):$(shell $(LFETOOL) info erllibs)
+
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
@@ -53,10 +55,6 @@ get-codepath:
 	erl -eval "io:format(\"~p~n\", [code:get_path()])." -noshell -s erlang halt
 
 debug: get-erllibs get-codepath
-
-$(EXPM): $(BIN_DIR)
-	@[ -f $(EXPM) ] || \
-	PATH=$(SCRIPT_PATH) lfetool install expm $(BIN_DIR)
 
 get-deps:
 	@echo "Getting dependencies ..."
@@ -138,24 +136,20 @@ check: check-unit-with-deps
 
 check-travis: compile compile-tests check-unit-only
 
-push-all:
-	@echo "Pusing code to github ..."
-	git push --all
-	git push upstream --all
-	git push --tags
-	git push upstream --tags
+$(RELEASE_DIR):
+	@echo "Creating release directory ..."
+	@mkdir -p $(RELEASE_DIR)
 
-install: compile
-	@echo "Installing $(PROJECT) ..."
-	@PATH=$(SCRIPT_PATH) lfetool install lfe
+relx-config:
+	@echo "Generating relx.config file ..."
+	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfe -eval \
+	'(lcfg-relx:write "$(RELX_CFG)")'
 
-upload: $(EXPM) get-version
-	@echo "Preparing to upload $(PROJECT) ..."
-	@echo
-	@echo "Package file:"
-	@echo
-	@cat package.exs
-	@echo
-	@echo "Continue with upload? "
-	@read
-	$(EXPM) publish
+rel: $(RELEASE_DIR) relx-config
+	@echo "Creating release ..."
+	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) \
+	relx -c $(RELX_CFG) -o $(RELEASE_DIR)
+
+clean-release:
+	@echo "Removing relx.config file ..."
+	-@rm  -rf $(RELEASE_DIR)
