@@ -40,28 +40,35 @@
 
 (defun get-max-t (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app max-t)) 'infinity))
+    (lutil-type:get-in config '(project app max-t))
+    'infinity))
 
 (defun get-registered (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app registered)) '()))
+    (lutil-type:get-in config '(project app registered))
+    '()))
 
 (defun get-included-applications (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app included-applications)) '()))
+    (lutil-type:get-in config '(project app included-applications))
+    '()))
 
 (defun get-applications (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app applications)) '()))
+    (lutil-type:get-in config '(project app applications))
+    '()))
 
 (defun get-env (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app env)) '()))
+    (lutil-type:get-in config '(project app env))
+    '()))
 
 (defun get-mod (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app mod)) '()))
+    (lutil-type:get-in config '(project app mod))
+    '()))
 
 (defun get-start-phases (config)
   (lcfg-util:set-default
-    (lutil-type:get-in config '(project app start-phases)) 'undefined))
+    (lutil-type:get-in config '(project app start-phases))
+    'undefined))
