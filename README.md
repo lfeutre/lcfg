@@ -124,10 +124,10 @@ lager configuration.
 ### ``application`` [&#x219F;](#table-of-contents)
 
 With the introduction of ``application`` support, lcfg aims to obselete the need for
-LFE projects to include a ``src/XXX.app.src`` file, thus eliminating redundant
-information. By declaring an ``application`` section in your ``lfe.config`` file,
-you can generate the ``.app`` or ``.app.src`` file for your project on the fly.
-(See  [lfe.config.appsrc.sample](lfe.config.appsrc.sample) for example usage.)
+LFE projects to maintain a ``src/XXX.app.src`` file, thus eliminating redundant
+information. The lfcg ``Makefile`` includes a target called ``compile-app-src``
+which generates a ``.app`` file in the ``./ebin`` directory whose contents are built
+from metadata in ``lfe.config``.
 
 ### ``relx`` [&#x219F;](#table-of-contents)
 

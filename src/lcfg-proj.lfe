@@ -44,8 +44,6 @@
 
 ;; For use with complete configuration data
 (defun get-name (config)
-  ;; XXX
-  (io:format "DEBUG: config: ~p~n" (list config))
   (lcfg:get-in config '(project meta name)))
 
 (defun get-description (config)
