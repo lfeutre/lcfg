@@ -13,6 +13,7 @@
     * [deps](#deps-)
     * [meta](#meta-)
   * [logging](#logging-)
+  * [relx](#relx-)  
   * [Functions in config files](#functions-in-config-files-)
   * [Referencing other config items](#referencing-other-config-items-)
 
@@ -21,6 +22,9 @@
 
 
 ``lcfg`` is the library behind the ``lfe.config`` file.
+
+lcfg's philosophy is to consolidate the configuration needs for a single project and
+avoid the proliferation of configuration files in the codebase.
 
 This library is intented to be used by projects during their creation,
 dependency download, compile, etc., phases. As such, this library should
@@ -116,6 +120,20 @@ the information you want your backend to be configured with. See the
 [sample lfe.config file](lfe.config.sample) for a working example of a
 lager configuration.
 
+### ``application`` [&#x219F;](#table-of-contents)
+
+With the introduction of ``application`` support, lcfg aims to obselete the need for
+LFE projects to include a ``src/XXX.app.src`` file, thus eliminating redundant
+information. By declaring an ``application`` section in your ``lfe.config`` file,
+you can generate the ``.app`` or ``.app.src`` file for your project on the fly.
+(See  [lfe.config.appsrc.sample](lfe.config.appsrc.sample) for example usage.)
+
+### ``relx`` [&#x219F;](#table-of-contents)
+
+If you define a ``relx`` section of your config file
+(see [lfe.config.relx.sample](lfe.config.relx.sample) for example usage),
+lcfg can generate a ``relx.config`` file for you to use when building a
+release.
 
 ### Functions in config files [&#x219F;](#table-of-contents)
 
