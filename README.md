@@ -121,9 +121,9 @@ the information you want your backend to be configured with. See the
 [sample lfe.config file](lfe.config.sample) for a working example of a
 lager configuration.
 
-### ``application`` [&#x219F;](#table-of-contents)
+### ``app.src`` [&#x219F;](#table-of-contents)
 
-With the introduction of ``application`` support, lcfg aims to obselete the need for
+With the introduction of ``.app.src`` support, lcfg aims to obselete the need for
 LFE projects to maintain a ``src/XXX.app.src`` file, thus eliminating redundant
 information. The lfcg ``Makefile`` includes a target called ``compile-app-src``
 which generates a ``.app`` file in the ``./ebin`` directory whose contents are built
@@ -133,8 +133,7 @@ from metadata in ``lfe.config``.
 
 If you define a ``relx`` section of your config file
 (see [lfe.config.relx.sample](lfe.config.relx.sample) for example usage),
-lcfg can generate a ``relx.config`` file for you to use when building a
-release.
+lcfg can generate a ``relx.config`` file for use when building a release.
 
 ### Functions in config files [&#x219F;](#table-of-contents)
 
