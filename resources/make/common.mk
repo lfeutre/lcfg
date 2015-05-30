@@ -145,7 +145,7 @@ relx-config:
 	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfe -eval \
 	'(lcfg-relx:write "$(RELX_CFG)")'
 
-rel: $(RELEASE_DIR) relx-config
+rel: compile $(RELEASE_DIR) relx-config
 	@echo "Creating release ..."
 	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) \
 	relx -c $(RELX_CFG) -o $(RELEASE_DIR)

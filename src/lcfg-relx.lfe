@@ -10,11 +10,12 @@
   (write "relx.config"))
 
 (defun write (out-file)
-  (write (get-data) out-file))
+  (write (lcfg:get-in `(,(lcfg-relx:get-data)) '(relx)) out-file))
 
 (defun write (config out-file)
   (let ((`#(ok ,fh) (file:open out-file '(write))))
-    (io:fwrite fh "~p.~n" `(,config))))
+    (lists:map (lambda (line) (io:fwrite fh "~p.~n" `(,line)))
+               config)))
 
 (defun get-data ()
   (get-data (lcfg-file:parse-local)))
@@ -26,11 +27,13 @@
       #(sys_config ,(get-sys-config config))
       #(include_erts ,(get-include-erts config))
       #(extended_start_script ,(get-extended-start-script config))
-      #(default_release sexpr ,(get-default-release config))
-      #(release ,(get-release config))
+      #(default_release ,(lcfg-proj:get-name)
+                        ,(get-default-release config))
+      #(release ,@(get-release config))
       #(overrides ,(get-overrides config))
-      #(overlay_vars ,(get-overlay-vars))
-      #(overlay ,(get-overlay)))))
+      #(overlay_vars ,(get-overlay-vars config))
+      #(overlay ,(get-overlay config))
+      #(add_providers ,(get-providers config)))))
 
 (defun get-paths (config)
   (lcfg-util:set-default
@@ -63,13 +66,18 @@
     'undefined))
 
 (defun get-release (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx release))
-    'undefined))
+  (cdr
+   (tuple_to_list
+    (lists:keyfind 'release 1 (lcfg:get-in (lcfg-file:parse-local) '(relx))))))
 
 (defun get-overrides (config)
   (lcfg-util:set-default
     (lcfg:get-in config '(relx overrides))
+    'undefined))
+
+(defun get-providers (config)
+  (lcfg-util:set-default
+    (lcfg:get-in config '(relx add_providers))
     'undefined))
 
 (defun get-overlay-vars (config)
