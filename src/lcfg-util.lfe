@@ -18,7 +18,7 @@
           (get-app-version filepath)
           'undefined)))
   ((`#(ok (,app)))
-    (get-in (element 3 app) 'vsn))
+    (lcfg:get-in (element 3 app) '(vsn)))
   ((filename) (when (is_list filename))
     (get-app-version (file:consult filename))))
 
