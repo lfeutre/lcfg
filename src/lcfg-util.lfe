@@ -1,8 +1,6 @@
 (defmodule lcfg-util
   (export all))
 
-(include-lib "lutil/include/core.lfe")
-
 (defun get-version ()
   (get-app-version 'lcfg))
 
