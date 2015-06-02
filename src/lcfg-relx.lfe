@@ -20,6 +20,9 @@
 (defun get-data ()
   (get-data (lcfg-file:parse-local)))
 
+;; XXX for each of these, if a config element has no entry, it should not be
+;; included, with exceptions being made explicitly (e.g., release should
+;; instead auto-populate
 (defun get-data (config)
   `#(relx
      (#(paths ,(get-paths config))
