@@ -65,6 +65,12 @@
     (lcfg:get-in config '(relx default_release))
     'undefined))
 
+;; XXX this should: 1) get the application name from the app.src file,
+;;                  2) get the current version from the app.src file,
+;;                  3) get the applications from the app.src file,
+;;                  4) append the application name to the applications list,
+;;                     and then
+;;                  5) create a full release config entry using these
 (defun get-release (config)
   (cdr
    (tuple_to_list
