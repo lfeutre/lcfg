@@ -81,12 +81,11 @@
     (result result)))
 
 (defun get-release (config)
-  (let ((release (lists:keyfind 'release 1 (lcfg:get-in config '(relx)))))
-    (case release
-      ('false (generate-release-options (lcfg-proj:get-name config)))
-      ('undefined (generate-release-options (lcfg-proj:get-name config)))
-      ('() (generate-release-options (lcfg-proj:get-name config)))
-      (_ release))))
+  (case (lists:keyfind 'release 1 (lcfg:get-in config '(relx)))
+    ('false (generate-release-options (lcfg-proj:get-name config)))
+    ('undefined (generate-release-options (lcfg-proj:get-name config)))
+    ('() (generate-release-options (lcfg-proj:get-name config)))
+    (release release)))
 
 (defun generate-release-options (name)
   (let ((results (-generate-release-options name)))

@@ -27,10 +27,11 @@
       (_ result))))
 
 (defun get (key config)
-  (let ((result (lists:keyfind key 1 config)))
-    (case result
-      ('false 'undefined)
-      (_ (element 2 result)))))
+  ;; Note that when a keyfind returns false, we need to return an empty list
+  ;; so that get-in's foldl will work at any depth.
+  (case (lists:keyfind key 1 config)
+    ('false '())
+    (result (element 2 result))))
 
 (defun get (key default config)
   (let ((result (get key config)))
