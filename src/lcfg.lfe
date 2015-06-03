@@ -10,7 +10,7 @@
 (defun get-in
   ((_ 'undefined)
    '())
-  (('() config)
+  ((config '())
    config)
   (('local args)
     (lutil-type:get-in (lcfg-file:read-local) args))
@@ -19,8 +19,8 @@
   ((config args)
     (lists:foldl #'get/2 config args)))
 
-(defun get-in (data default args)
-  (let ((result (get-in args data)))
+(defun get-in (config default args)
+  (let ((result (get-in config args)))
     (case result
       ('false default)
       ('undefined default)
@@ -43,5 +43,4 @@
   (update key value (lcfg-file:read-local)))
 
 (defun update (key value config)
-  (++ `(#(,key ,value))
-      (lists:keydelete key 1 config)))
+  (lists:keyreplace key 1 config `#(,key ,value)))

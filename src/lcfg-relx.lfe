@@ -1,10 +1,15 @@
 ;;;; This provides support for generating relx.config files from the
 ;;;; lfe.config file.
 ;;;;
+;;;; The definitive relx.config sample:
+;;;;   https://github.com/erlware/relx/blob/master/examples/relx.config
+;;;;
 (defmodule lcfg-relx
   (export all))
 
 (include-lib "lutil/include/core.lfe")
+(include-lib "lutil/include/compose.lfe")
+(include-lib "lutil/include/predicates.lfe")
 
 (defun write ()
   (write "relx.config"))
@@ -20,81 +25,90 @@
 (defun get-data ()
   (get-data (lcfg-file:parse-local)))
 
-;; XXX for each of these, if a config element has no entry, it should not be
-;; included, with exceptions being made explicitly (e.g., release should
-;; instead auto-populate
-(defun get-data (config)
-  `#(relx
-     (#(paths ,(get-paths config))
-      #(vm_args ,(get-vm-args config))
-      #(sys_config ,(get-sys-config config))
-      #(include_erts ,(get-include-erts config))
-      #(extended_start_script ,(get-extended-start-script config))
-      #(default_release ,(lcfg-proj:get-name)
-                        ,(get-default-release config))
-      #(release ,@(get-release config))
-      #(overrides ,(get-overrides config))
-      #(overlay_vars ,(get-overlay-vars config))
-      #(overlay ,(get-overlay config))
-      #(add_providers ,(get-providers config)))))
+(defun get-data
+  (('undefined)
+   #(relx ()))
+  (('())
+   #(relx ()))
+  ((config)
+   (case (lcfg:get 'relx config)
+     ('undefined `#(relx ,(extract-relx-data #(relx ()))))
+     (result `#(relx ,result)))))
+
+(defun extract-relx-data (config)
+  (->> `(,(get-paths config)
+         ,(get-vm-args config)
+         ,(get-sys-config config)
+         ,(get-include-erts config)
+         ,(get-extended-start-script config)
+         ,(get-default-release config)
+         ,(get-release config)
+         ,(get-overrides config)
+         ,(get-overlay-vars config)
+         ,(get-overlay config)
+         ,(get-providers config))
+       (filter-non-tuples)
+       (filter-undefined)))
+
+(defun filter-non-tuples (data)
+  (lists:filter (lambda (x) (tuple? x)) data))
+
+(defun filter-undefined (data)
+  (lists:filter (lambda (x) (not (undefined? (element 2 x)))) data))
+
+(defun get
+  (((= `(relx ,key) keys) default config)
+  `#(,key ,(lcfg:get-in config default keys))))
 
 (defun get-paths (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx paths))
-    'undefined))
+  (get '(relx paths) 'undefined config))
 
 (defun get-vm-args (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx vm_args))
-    'undefined))
+  (get '(relx vm_args) 'undefined config))
 
 (defun get-sys-config (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx sy_config))
-    'undefined))
+  (get '(relx sys_config) 'undefined config))
 
 (defun get-include-erts (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx include_erts))
-    'true))
+  (get '(relx include_erts) 'true config))
 
 (defun get-extended-start-script (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx extended_start_script))
-    'false))
+  (get '(relx extended_start_script) 'false config))
 
 (defun get-default-release (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx default_release))
-    'undefined))
+  (case (lists:keyfind 'default_release 1 (lcfg:get-in config '(relx)))
+    ('false #(default_release undefined))
+    (result result)))
 
-;; XXX this should: 1) get the application name from the app.src file,
-;;                  2) get the current version from the app.src file,
-;;                  3) get the applications from the app.src file,
-;;                  4) append the application name to the applications list,
-;;                     and then
-;;                  5) create a full release config entry using these
 (defun get-release (config)
-  (cdr
-   (tuple_to_list
-    (lists:keyfind 'release 1 (lcfg:get-in (lcfg-file:parse-local) '(relx))))))
+  (let ((release (lists:keyfind 'release 1 (lcfg:get-in config '(relx)))))
+    (case release
+      ('false (generate-release-options (lcfg-proj:get-name config)))
+      ('undefined (generate-release-options (lcfg-proj:get-name config)))
+      ('() (generate-release-options (lcfg-proj:get-name config)))
+      (_ release))))
+
+(defun generate-release-options (name)
+  (let ((results (-generate-release-options name)))
+    (case results
+      (`#(release ,data ())
+       `#(release ,data))
+      (_ results))))
+
+(defun -generate-release-options (name)
+  `#(release #(,(lcfg-util:get-appsrc-name name)
+               ,(lcfg-util:get-appsrc-version name))
+             (++ `(,name)
+                 ,(lcfg-util:get-appsrc-applications name))))
 
 (defun get-overrides (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx overrides))
-    'undefined))
+  (get '(relx overrides) 'undefined config))
 
 (defun get-providers (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx add_providers))
-    'undefined))
+  (get '(relx add_providers) 'undefined config))
 
 (defun get-overlay-vars (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx overlay_vars))
-    'undefined))
+  (get '(relx overlay_vars) 'undefined config))
 
 (defun get-overlay (config)
-  (lcfg-util:set-default
-    (lcfg:get-in config '(relx overlay))
-    'undefined))
+  (get '(relx overlay) 'undefined config))

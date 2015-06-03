@@ -44,3 +44,21 @@
 
 (defun strip-extensions (files)
   (lists:map #'filename:rootname/1 files))
+
+(defun load-appsrc (app-atom)
+  (let* ((filename (filename:flatten `(,app-atom .app)))
+         (fullpath (code:where_is_file filename))
+         (`#(ok ,data) (file:consult fullpath)))
+    data))
+
+(defun get-appsrc-name (app-atom)
+  (lcfg:get 'application (load-appsrc app-atom)))
+
+(defun get-appsrc-data (app-atom)
+  (element 3 (car (load-appsrc 'lcfg))))
+
+(defun get-appsrc-version (app-atom)
+  (lcfg:get 'vsn (get-appsrc-data app-atom)))
+
+(defun get-appsrc-applications (app-atom)
+  (lcfg:get 'applications (get-appsrc-data app-atom)))
