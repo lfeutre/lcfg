@@ -21,7 +21,10 @@
   (('())
     '())
   ((config)
-    (lcfg:get-in config '(project))))
+   (let ((result (lcfg:get 'project config)))
+     (case result
+       ('undefined '())
+       (_ result)))))
 
 (defun get-name ()
   (lcfg:get-in (get-project-config) '(meta name)))
