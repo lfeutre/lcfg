@@ -16,6 +16,8 @@
   (get-project (lcfg-file:parse-global)))
 
 (defun get-project
+  (('undefined)
+    '())
   (('())
     '())
   ((config)

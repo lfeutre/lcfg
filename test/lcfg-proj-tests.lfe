@@ -1,10 +1,6 @@
 (defmodule lcfg-proj-tests
   (behaviour ltest-unit)
-  (export all)
-  (import
-    (from ltest
-      (check-failed-is 2)
-      (check-wrong-is-exception 2))))
+  (export all))
 
 (include-lib "ltest/include/ltest-macros.lfe")
 
