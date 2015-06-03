@@ -20,6 +20,7 @@
   ((filename) (when (is_list filename))
     (get-app-version (file:consult filename))))
 
+;;; DEPRECATED - use lcfg:get/3 and lcfg:get-in/3 instead
 (defun set-default (result default)
   (case result
     ('false default)
