@@ -55,7 +55,7 @@
   (lcfg:get 'application (load-appsrc app-atom)))
 
 (defun get-appsrc-data (app-atom)
-  (element 3 (car (load-appsrc 'lcfg))))
+  (caddr (tuple_to_list (car (load-appsrc 'lcfg)))))
 
 (defun get-appsrc-version (app-atom)
   (lcfg:get 'vsn (get-appsrc-data app-atom)))
