@@ -32,7 +32,8 @@
    #(relx ()))
   ((config)
    (case (lcfg:get 'relx config)
-     ('undefined `#(relx ,(extract-relx-data #(relx ()))))
+     ('undefined `#(relx ,(extract-relx-data config)))
+     ('() `#(relx ,(extract-relx-data config)))
      (result `#(relx ,result)))))
 
 (defun extract-relx-data (config)
@@ -82,23 +83,24 @@
 
 (defun get-release (config)
   (case (lists:keyfind 'release 1 (lcfg:get-in config '(relx)))
-    ('false (generate-release-options (lcfg-proj:get-name config)))
-    ('undefined (generate-release-options (lcfg-proj:get-name config)))
-    ('() (generate-release-options (lcfg-proj:get-name config)))
+    ('false (generate-release-options config))
+    ('undefined (generate-release-options config))
+    ('() (generate-release-options config))
     (release release)))
 
-(defun generate-release-options (name)
-  (let ((results (-generate-release-options name)))
+(defun generate-release-options (config)
+  (let ((results (-generate-release-options config)))
     (case results
       (`#(release ,data ())
        `#(release ,data))
       (_ results))))
 
-(defun -generate-release-options (name)
-  `#(release #(,(lcfg-util:get-appsrc-name name)
-               ,(lcfg-util:get-appsrc-version name))
-             (++ `(,name)
-                 ,(lcfg-util:get-appsrc-applications name))))
+(defun -generate-release-options (config)
+  (let ((name (lcfg-proj:get-name config)))
+    `#(release #(,name
+                 ,(lcfg-proj:get-version config))
+               ,(++ `(,name)
+                    (lcfg-appsrc:get-applications config)))))
 
 (defun get-overrides (config)
   (get '(relx overrides) 'undefined config))

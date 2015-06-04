@@ -24,6 +24,7 @@
     (case result
       ('false default)
       ('undefined default)
+      ('() default)
       (_ result))))
 
 (defun get (key config)
@@ -38,6 +39,7 @@
     (case result
       ('false default)
       ('undefined default)
+      ('() default)
       (_ result))))
 
 (defun update (key value)
