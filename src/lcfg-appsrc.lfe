@@ -36,7 +36,7 @@
     (lcfg:get-in config '(project app modules))
     (lists:map
       #'list_to_atom/1
-      (lcfg-util:get-source-files 'no-extensions))))
+      (lcfg-util:get-beam-files 'no-extensions))))
 
 (defun get-max-t (config)
   (lcfg-util:set-default

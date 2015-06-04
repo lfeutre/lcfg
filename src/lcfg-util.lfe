@@ -25,6 +25,7 @@
   (case result
     ('false default)
     ('undefined default)
+    ('() default)
     (_ result)))
 
 (defun get-source-files ()
@@ -39,6 +40,21 @@
 
 (defun source-file? (filename)
   (case (re:run filename "^.*\.(lfe|erl|ex|jxa)$")
+    (`#(match ,_) 'true)
+    (_ 'false)))
+
+(defun get-beam-files ()
+  (get-beam-files "./ebin"))
+
+(defun get-beam-files
+  (('no-extensions)
+    (strip-extensions (get-beam-files)))
+  ((src-dir)
+    (let ((`#(ok ,files) (file:list_dir src-dir)))
+      (lists:filter #'beam-file?/1 files))))
+
+(defun beam-file? (filename)
+  (case (re:run filename "^.*\.(beam)$")
     (`#(match ,_) 'true)
     (_ 'false)))
 
