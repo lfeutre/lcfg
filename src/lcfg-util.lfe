@@ -88,6 +88,10 @@
 (defun get-rebarcfg-deps (app-name)
   (proplists:get_value 'deps (lcfg-util:load-rebarcfg app-name)))
 
+(defun get-rebarcfg-dep-names (app-name)
+  (lists:map (lambda (x) (element 1 x))
+             (lcfg-util:get-rebarcfg-deps app-name)))
+
 (defun get-appsrc (app-name)
   (let ((filename (filename:flatten `(,app-name .app))))
     (code:where_is_file filename)))
