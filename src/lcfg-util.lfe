@@ -103,3 +103,11 @@
 
 (defun get-rebarcfg (app-name)
   (filename:flatten `(,(get-appdir app-name) / rebar.config)))
+
+(defun get-depsdir (app-name)
+  (filename:flatten `(,(get-appdir app-name) / deps)))
+
+(defun get-dep-names (app-name)
+  (let* ((fullpath (get-depsdir app-name))
+         (`#(ok ,names) (file:list_dir fullpath)))
+    (lists:map #'list_to_atom/1 names)))
