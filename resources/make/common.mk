@@ -153,3 +153,12 @@ rel: compile $(RELEASE_DIR) relx-config
 clean-release:
 	@echo "Removing relx.config file ..."
 	-@rm  -rf $(RELEASE_DIR)
+
+push-all:
+	@echo "Pushing code to github ..."
+	git push --all
+	git push --tags
+	@#git push upstream --all
+	@#git push upstream --tags
+	git push backup --all
+	git push backup --tags
