@@ -1,6 +1,8 @@
 (defmodule lcfg-util
   (export all))
 
+(include-lib "lutil/include/compose.lfe")
+
 (defun get-version ()
   (get-app-version 'lcfg))
 
@@ -67,14 +69,33 @@
          (`#(ok ,data) (file:consult fullpath)))
     data))
 
-(defun get-appsrc-name (app-atom)
-  (lcfg:get 'application (load-appsrc app-atom)))
+(defun get-appsrc-name (app-name)
+  (lcfg:get 'application (load-appsrc app-name)))
 
-(defun get-appsrc-data (app-atom)
-  (caddr (tuple_to_list (car (load-appsrc 'lcfg)))))
+(defun get-appsrc-data (app-name)
+  (caddr (tuple_to_list (car (load-appsrc app-name)))))
 
-(defun get-appsrc-version (app-atom)
-  (lcfg:get 'vsn (get-appsrc-data app-atom)))
+(defun get-appsrc-version (app-name)
+  (lcfg:get 'vsn (get-appsrc-data app-name)))
 
-(defun get-appsrc-applications (app-atom)
-  (lcfg:get 'applications (get-appsrc-data app-atom)))
+(defun get-appsrc-applications (app-name)
+  (lcfg:get 'applications (get-appsrc-data app-name)))
+
+(defun load-rebarcfg (app-name)
+  (let ((`#(ok ,data) (file:consult (get-rebarcfg app-name))))
+    data))
+
+(defun get-rebarcfg-deps (app-name)
+  (proplists:get_value 'deps (lcfg-util:load-rebarcfg app-name)))
+
+(defun get-appsrc (app-name)
+  (let ((filename (filename:flatten `(,app-name .app))))
+    (code:where_is_file filename)))
+
+(defun get-appdir (app-name)
+  (->> (get-appsrc app-name)
+       (filename:dirname)
+       (filename:dirname)))
+
+(defun get-rebarcfg (app-name)
+  (filename:flatten `(,(get-appdir app-name) / rebar.config)))
