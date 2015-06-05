@@ -100,8 +100,7 @@
     `#(release #(,name
                  ,(lcfg-proj:get-version config))
                ,(++ `(,name)
-                    (lcfg-appsrc:get-applications config)
-                    (lcfg-util:get-dep-names name)))))
+                    (lcfg-appsrc:get-applications config)))))
 
 (defun get-overrides (config)
   (get '(relx overrides) 'undefined config))
