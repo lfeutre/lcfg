@@ -96,7 +96,7 @@ compile: get-deps clean-ebin copy-appsrc
 	@which rebar.cmd >/dev/null 2>&1 && \
 	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar.cmd compile || \
 	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile
-	@make compile-app-src
+	@make compile-appsrc
 
 compile-no-deps: clean-ebin
 	@echo "Compiling only project code ..."
@@ -104,9 +104,9 @@ compile-no-deps: clean-ebin
 	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) \
 	rebar.cmd compile skip_deps=true || \
 	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile skip_deps=true
-	@make compile-app-src
+	@make compile-appsrc
 
-compile-app-src:
+compile-appsrc:
 	@echo "Generating app.src file ..."
 	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfe -eval \
 	'(lcfg-appsrc:write "ebin/$(PROJECT).app")'
