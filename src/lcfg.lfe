@@ -1,6 +1,9 @@
 (defmodule lcfg
   (export all))
 
+(defun start ()
+  'ok)
+
 (defun clone-deps ()
   (lcfg-deps:clone-deps))
 
