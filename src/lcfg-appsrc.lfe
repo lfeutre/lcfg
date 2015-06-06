@@ -71,4 +71,4 @@
 (defun get-start-phases (config)
   (lcfg-util:set-default
     (lcfg:get-in config '(project app start-phases))
-    'undefined))
+    '()))
