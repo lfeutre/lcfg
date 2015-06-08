@@ -187,10 +187,10 @@ configuration option has three sub-options:
  * ``backend``
  * ``options``
 
-The last is what gets passed to the backend. As such, it needs to hold all
-the information you want your backend to be configured with. See the
-[sample lfe.config file](lfe.config.sample) for a working example of a
-lager configuration.
+The last is what gets passed to the logging backend (e.g., lager). As such,
+it needs to hold all the information with which you want your backend to be
+configured. See the [sample lfe.config file](lfe.config.sample) for a
+working example of a lager configuration.
 
 ### ``app.src`` [&#x219F;](#table-of-contents)
 
