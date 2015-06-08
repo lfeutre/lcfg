@@ -4,6 +4,9 @@
 (defun start ()
   'ok)
 
+(defun start (_type _args)
+  `#(ok ,(self)))
+
 (defun clone-deps ()
   (lcfg-deps:clone-deps))
 
