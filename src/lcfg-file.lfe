@@ -45,9 +45,14 @@
        (read-file)
        (read-config)))
 
+(defun parse ()
+  (->> (local-or-global)
+       (read-file)
+       (parse-config)))
+
 (defun parse-global ()
   (->> (lcfg-const:global-config)
-       (lutil-file:expand-home-dir)
+       (home-or-release)
        (read-file)
        (parse-config)))
 
@@ -56,6 +61,25 @@
        (filename:join (get-cwd))
        (read-file)
        (parse-config)))
+
+(defun home-or-release ()
+  (home-or-release (lcfg-const:global-config)))
+
+(defun home-or-release (filename)
+  (let ((home (lutil-file:expand-home-dir filename))
+        (release (filename:join (code:root_dir)
+                                'priv
+                                (filename:basename filename))))
+    (case (filelib:is_file home)
+      ('true home)
+      (_ release))))
+
+(defun local-or-global ()
+  (let ((local (lcfg-const:local-config))
+        (global (home-or-release)))
+    (case (filelib:is_file local)
+      ('true local)
+      ('false global))))
 
 (defun read-file (filename)
   (try
