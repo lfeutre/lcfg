@@ -67,9 +67,9 @@
 
 (defun home-or-release (filename)
   (let ((home (lutil-file:expand-home-dir filename))
-        (release (filename:join (code:root_dir)
-                                'priv
-                                (filename:basename filename))))
+        (release (filename:join `(,(code:root_dir)
+                                  priv
+                                 ,(filename:basename filename)))))
     (case (filelib:is_file home)
       ('true home)
       (_ release))))
