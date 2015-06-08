@@ -35,13 +35,84 @@ installs it into ``~/.lfe/deps``).
 
 ## Dependencies [&#x219F;](#table-of-contents)
 
-This library requires only that [LFE](https://github.com/rvirding/lfe) be
-installed.
+This library depends upon LFE and a few LFE libraries, but these are
+managed automatically by ``lfetool`` and ``rebar``. It is assumed
+that you have ``lfetool`` installed, as this library was originally
+designed to let ``lfetool`` manage multiple Erlang ecosystem config
+files from a single, unified config file (in LFE syntaqx, of course).
 
 
 ## Usage [&#x219F;](#table-of-contents)
 
-Usage is the same as any other Erlang or LFE library :-)
+In the sub-sections below are examples of using lcfg, specifically its
+first- and second-level configuration directives.
+
+Though the basic assumption is that one would use this in
+conjunction with ``lfetool`` and standard LFE project ``Makefile``s,
+lcfg is usable with vanilla Erlang. If you have added lcfg
+to your ``rebar.config`` like so:
+
+```erlang
+   ...
+   {lcfg, ".*", {git, "git://github.com/lfex/lcfg.git", "master"}},
+   ...
+```
+
+then you can do the following:
+
+```bash
+$ rebar get-deps
+$ cd deps/lcfg && ln -s ../../deps . && make compile && cd -
+$ rebar compile
+$ cp deps/lcfg/lfe.config.sample lfe.config
+$ erl -pa ./ebin ./deps/*/ebin
+```
+
+And then, in the Erlang shell:
+
+```erlang
+1> 'lcfg-file':'parse-local'().
+[{project,[{meta,[{name,'cool-thing'},
+                  {description,"Cool Thing!"},
+                  {version,"4.2.0"},
+                  {id,"kl-prj-xk-4"},
+                  {keywords,["LFE",[unquote,"Library"],[unquote,"API"]]},
+                  {maintainers,[[{name,"Alice"},{email,"ali@ce.com"}],
+                                [{name,"Bob"},{email,"bo@b.com"}]]},
+                  {repos,[{github,"cool/thing"},
+                          {myhost,"darcs://myhost.com/cool/thing-dev"}]}]},
+           {deps,[{"rvirding/lfe","develop"},
+                  {"lfex/lutil","master"},
+                  "dysinger/lfesl","lfex/ltest"]}],
+          {app,[{'max-t',1000},
+                {registered,['my-reged-proc-1','proc-2']},
+                {modules,[kt,'kt-app','kt-sup','kt-util']},
+                {'included-applications',[]},
+                {applications,[lager]},
+                {env,[]},
+                {mod,'$',['start-mod',['arg-1','arg-2']]},
+                {'start-phases',[{phs1,['arg-1','arg-2']},{phs2,[arg]}]}]}},
+ {'cfg-data',[{some,[{thing,"else"},
+                     {'or',"other"},
+                     {can,"be"},
+                     {configured,"here"}]}]},
+ {'opt-1',["0.9.0"]},
+ {'opt-2',[{'data-from-config',undefined}]},
+ {logging,[{'log-level',info},
+           {backend,lager},
+           {options,[{lager_console_backend,debug},
+                     {lager_file_backend,[{file,"log/error.log"},
+                                          {level,error},
+                                          {size,10485760},
+                                          {date,"$D0"},
+                                          {count,5}]},
+                     {lager_file_backend,[{file,"log/console.log"},
+                                          {level,info},
+                                          {size,10485760},
+                                          {date,"$D0"},
+                                          {count,5}]}]}]}]
+2>
+```
 
 
 ### ``project`` [&#x219F;](#table-of-contents)
@@ -116,10 +187,10 @@ configuration option has three sub-options:
  * ``backend``
  * ``options``
 
-The last is what gets passed to the backend. As such, it needs to hold all
-the information you want your backend to be configured with. See the
-[sample lfe.config file](lfe.config.sample) for a working example of a
-lager configuration.
+The last is what gets passed to the logging backend (e.g., lager). As such,
+it needs to hold all the information with which you want your backend to be
+configured. See the [sample lfe.config file](lfe.config.sample) for a
+working example of a lager configuration.
 
 ### ``app.src`` [&#x219F;](#table-of-contents)
 
