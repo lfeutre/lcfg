@@ -44,12 +44,12 @@ files from a single, unified config file (in LFE syntaqx, of course).
 
 ## Usage [&#x219F;](#table-of-contents)
 
-Below are examples of using the different functionality provided by
-lcfg. 
+In the sub-sections below are examples of using lcfg, specifically its
+first- and second-level configuration directives.
 
 Though the basic assumption is that one would use this in
 conjunction with ``lfetool`` and standard LFE project ``Makefile``s,
-lcfg is usable with vanilla Erlang. Assuming you have added lcfg
+lcfg is usable with vanilla Erlang. If you have added lcfg
 to your ``rebar.config`` like so:
 
 ```erlang
@@ -58,7 +58,7 @@ to your ``rebar.config`` like so:
    ...
 ```
 
-you can do the following:
+then you can do the following:
 
 ```bash
 $ rebar get-deps
