@@ -23,7 +23,7 @@
                config)))
 
 (defun get-data ()
-  (get-data (lcfg-file:parse-local)))
+  (get-data (lcfg-file:parse)))
 
 (defun get-data
   (('undefined)
