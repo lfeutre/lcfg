@@ -34,7 +34,7 @@
    (case (lcfg:get 'relx config)
      ('undefined `#(relx ,(extract-relx-data config)))
      ('() `#(relx ,(extract-relx-data config)))
-     (result `#(relx ,result)))))
+     (result `#(relx ,(add-defaults result config))))))
 
 (defun extract-relx-data (config)
   (->> `(,(get-paths config)
@@ -50,6 +50,17 @@
          ,(get-providers config))
        (filter-non-tuples)
        (filter-undefined)))
+
+(defun add-defaults (relx config)
+  (-> relx
+      (add-release config)
+      ;; add more here
+      ))
+
+(defun add-release (relx config)
+  (if (has-release? config)
+    relx
+    (++ relx `(,(get-release config)))))
 
 (defun filter-non-tuples (data)
   (lists:filter (lambda (x) (tuple? x)) data))
@@ -77,16 +88,26 @@
   (get '(relx extended_start_script) 'false config))
 
 (defun get-default-release (config)
-  (case (lists:keyfind 'default_release 1 (lcfg:get-in config '(relx)))
+  (case (has-default-release? config)
     ('false #(default_release undefined))
     (result result)))
 
 (defun get-release (config)
-  (case (lists:keyfind 'release 1 (lcfg:get-in config '(relx)))
+  (case (has-release? config)
     ('false (generate-release-options config))
-    ('undefined (generate-release-options config))
-    ('() (generate-release-options config))
     (release release)))
+
+(defun has-key? (key config)
+  (case (lists:keyfind key 1 (lcfg:get-in config '(relx)))
+    ('undefined 'false)
+    ('() 'false)
+    (value value)))
+
+(defun has-default-release? (config)
+  (has-key? 'default-release config))
+
+(defun has-release? (config)
+  (has-key? 'release config))
 
 (defun generate-release-options (config)
   (let ((results (-generate-release-options config)))
