@@ -8,6 +8,12 @@
 
 (include-lib "lutil/include/core.lfe")
 
+(defun start ()
+  (setup))
+
+(defun start (_start-type _start-args)
+  (setup))
+
 (defun setup ()
   (setup (get-logging-config)))
 
