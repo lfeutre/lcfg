@@ -12,7 +12,8 @@
   (setup))
 
 (defun start (_start-type _start-args)
-  (setup))
+  (setup)
+  `#(ok ,(self)))
 
 (defun setup ()
   (setup (get-logging-config)))
