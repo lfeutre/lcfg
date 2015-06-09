@@ -47,6 +47,7 @@
          ,(get-overrides config)
          ,(get-overlay-vars config)
          ,(get-overlay config)
+         ,(get-lib-dirs config)
          ,(get-providers config))
        (filter-non-tuples)
        (filter-undefined)))
@@ -101,7 +102,8 @@
   (case (lists:keyfind key 1 (lcfg:get-in config '(relx)))
     ('undefined 'false)
     ('() 'false)
-    (value value)))
+    ('false 'false)
+    (_ 'true)))
 
 (defun has-default-release? (config)
   (has-key? 'default-release config))
@@ -134,3 +136,8 @@
 
 (defun get-overlay (config)
   (get '(relx overlay) 'undefined config))
+
+(defun get-lib-dirs (config)
+  (get '(relx add_lib_dirs) '() config))
+
+
