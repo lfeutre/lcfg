@@ -11,7 +11,7 @@
   (lcfg-deps:clone-deps))
 
 (defun get-in (args)
-  (get-in 'local args))
+  (lutil-type:get-in (lcfg-file:parse) args))
 
 (defun get-in
   ((_ 'undefined)
