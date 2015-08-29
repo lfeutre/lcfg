@@ -1,8 +1,6 @@
 (defmodule lcfg-appsrc
   (export all))
 
-(include-lib "lutil/include/core.lfe")
-
 (defun write (out-file)
   (write (get-data) out-file))
 

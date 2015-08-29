@@ -7,9 +7,8 @@
 (defmodule lcfg-relx
   (export all))
 
-(include-lib "lutil/include/core.lfe")
-(include-lib "lutil/include/compose.lfe")
-(include-lib "lutil/include/predicates.lfe")
+(include-lib "clj/include/compose.lfe")
+(include-lib "clj/include/predicates.lfe")
 
 (defun write ()
   (write "relx.config"))

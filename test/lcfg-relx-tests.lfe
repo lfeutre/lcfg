@@ -11,4 +11,9 @@
   (is-equal #(relx ()) (lcfg-relx:get-data '())))
 
 (deftest get-relx-default
-  (is-equal #(relx ()) (lcfg-relx:get-data '(#(project (#(meta (#(name test))))) #(relx ())))))
+  (is-equal #(relx (#(include-erts true)
+                    #(extended-start-script false)
+                    #(release #(test ()) (test))
+                    #(add-lib-dirs ())))
+            (lcfg-relx:get-data '(#(project (#(meta (#(name test)))))
+                                  #(relx ())))))

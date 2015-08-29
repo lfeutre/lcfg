@@ -1,8 +1,6 @@
 (defmodule lcfg-proj
   (export all))
 
-(include-lib "lutil/include/core.lfe")
-
 (defun get-project-config ()
   (let ((local (get-local-project)))
     (if (=/= local '())

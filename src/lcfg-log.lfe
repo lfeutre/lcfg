@@ -6,8 +6,6 @@
 (defmodule lcfg-log
   (export all))
 
-(include-lib "lutil/include/core.lfe")
-
 (defun start ()
   (setup))
 

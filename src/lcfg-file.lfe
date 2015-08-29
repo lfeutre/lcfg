@@ -1,8 +1,8 @@
 (defmodule lcfg-file
   (export all))
 
-(include-lib "lutil/include/compose.lfe")
-(include-lib "lutil/include/predicates.lfe")
+(include-lib "clj/include/compose.lfe")
+(include-lib "clj/include/predicates.lfe")
 
 (defun read-config
   ((`#(ok ,config-data))

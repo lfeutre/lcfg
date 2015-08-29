@@ -1,7 +1,7 @@
 (defmodule lcfg-util
   (export all))
 
-(include-lib "lutil/include/compose.lfe")
+(include-lib "clj/include/compose.lfe")
 
 (defun get-version ()
   (get-app-version 'lcfg))
