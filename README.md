@@ -1,10 +1,14 @@
 # lcfg
+
+[![][lcfg-logo]][lcfg-logo-large]
+
+[lcfg-logo]: resources/images/Illustration_Ficus_carica0-small.jpg
+[lcfg-logo-large]: resources/images/Illustration_Ficus_carica0.jpg
+
 *The LFE library for managing and using lfe.config files*
 
-<a href="resources/images/Illustration_Ficus_carica0.jpg"><img src="resources/images/Illustration_Ficus_carica0-small.jpg"/></a>
 
-
-## Table of Contents
+## Contents
 
 * [Introduction](#introduction-)
 * [Dependencies](#dependencies-)
@@ -19,7 +23,7 @@
   * [Referencing other config items](#referencing-other-config-items-)
 
 
-## Introduction [&#x219F;](#table-of-contents)
+## Introduction [&#x219F;](#contents)
 
 
 ``lcfg`` is the library behind the ``lfe.config`` file.
@@ -33,16 +37,15 @@ be "bootstrapped" ([lfetool](https://github.com/lfe/lfetool) uses it and
 installs it into ``~/.lfe/deps``).
 
 
-## Dependencies [&#x219F;](#table-of-contents)
+## Dependencies [&#x219F;](#contents)
 
-This library depends upon LFE and a few LFE libraries, but these are
-managed automatically by ``lfetool`` and ``rebar``. It is assumed
-that you have ``lfetool`` installed, as this library was originally
-designed to let ``lfetool`` manage multiple Erlang ecosystem config
-files from a single, unified config file (in LFE syntaqx, of course).
+As of version 0.2.0, this project assumes that you have
+[rebar3](https://github.com/rebar/rebar3) installed somwhere in your ``$PATH``.
+It no longer uses the old version of rebar. If you do not wish to use rebar3,
+you may use the most recent rebar2-compatible release of lutil: 0.1.1.
 
 
-## Usage [&#x219F;](#table-of-contents)
+## Usage [&#x219F;](#contents)
 
 In the sub-sections below are examples of using lcfg, specifically its
 first- and second-level configuration directives.
@@ -115,10 +118,12 @@ And then, in the Erlang shell:
 ```
 
 
-### ``project`` [&#x219F;](#table-of-contents)
+### ``project`` [&#x219F;](#contents)
 
 
-#### ``deps`` [&#x219F;](#table-of-contents)
+#### ``deps`` [&#x219F;](#contents)
+
+Note: **the ``deps`` directive should only be used with rebar2 projects.
 
 Given an ``lfe.config`` (such as ``lfe.config.sample`` found in this repo)
 with project dependencies defined:
@@ -158,7 +163,8 @@ ok
 2>
 ```
 
-#### ``meta`` [&#x219F;](#table-of-contents)
+
+#### ``meta`` [&#x219F;](#contents)
 
 lcfg also supports metadata, not unlike what Elixir's ``expm`` project originally supported.
 Here is an example:
@@ -177,7 +183,8 @@ Here is an example:
 
 If you also declare ``deps`` just know that ``meta`` and ``deps`` are siblings (keys in the same property list).
 
-### ``logging`` [&#x219F;](#table-of-contents)
+
+### ``logging`` [&#x219F;](#contents)
 
 lcfg supports logging configuration. Currently the only supported logging
 backend is [lager](https://github.com/basho/lager). The top-level ``logging``
@@ -192,7 +199,8 @@ it needs to hold all the information with which you want your backend to be
 configured. See the [sample lfe.config file](lfe.config.sample) for a
 working example of a lager configuration.
 
-### ``app.src`` [&#x219F;](#table-of-contents)
+
+### ``app.src`` [&#x219F;](#contents)
 
 With the introduction of ``.app.src`` support, lcfg aims to obselete the need for
 LFE projects to maintain a ``src/XXX.app.src`` file, thus eliminating redundant
@@ -200,13 +208,15 @@ information. The lfcg ``Makefile`` includes a target called ``compile-app-src``
 which generates a ``.app`` file in the ``./ebin`` directory whose contents are built
 from metadata in ``lfe.config``.
 
-### ``relx`` [&#x219F;](#table-of-contents)
+
+### ``relx`` [&#x219F;](#contents)
 
 If you define a ``relx`` section of your config file
 (see [lfe.config.relx.sample](lfe.config.relx.sample) for example usage),
 lcfg can generate a ``relx.config`` file for use when building a release.
 
-### Functions in config files [&#x219F;](#table-of-contents)
+
+### Functions in config files [&#x219F;](#contents)
 
 lcfg supports functions in config files. In order to work, the top-level tuple
 for the config item needs to be ``backquote``'ed. For example, if the following\
@@ -248,7 +258,8 @@ items will be ignored, e.g.:
        "lfex/ltest"))))
 ```
 
-### Referencing other config items [&#x219F;](#table-of-contents)
+
+### Referencing other config items [&#x219F;](#contents)
 
 lcfg supports the ability to extract items that were configured in different
 (static, unevaluated) sections. For example, given this configuration:
