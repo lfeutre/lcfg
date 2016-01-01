@@ -39,7 +39,7 @@ installs it into ``~/.lfe/deps``).
 
 ## Dependencies [&#x219F;](#contents)
 
-As of version 0.2.0, this project assumes that you have
+As of version 0.3.0, this project assumes that you have
 [rebar3](https://github.com/rebar/rebar3) installed somwhere in your ``$PATH``.
 It no longer uses the old version of rebar. If you do not wish to use rebar3,
 you may use the most recent rebar2-compatible release of lcfg: 0.1.1.
