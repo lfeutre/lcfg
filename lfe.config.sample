@@ -9,10 +9,6 @@
                    #(repos (
                      #(github "cool/thing")
                      #(myhost "darcs://myhost.com/cool/thing-dev")))))
-           #(deps (#("rvirding/lfe" "develop")
-                   #("lfex/lutil" "master")
-                   "dysinger/lfesl"
-                   "lfex/ltest")))
            #(app (#(max-t 1000)
                   #(registered (my-reged-proc-1 proc-2))
                   #(modules (kt kt-app kt-sup kt-util))
@@ -21,13 +17,17 @@
                   #(env ())
                   #(mod $(start-mod (arg-1 arg-2)))
                   #(start-phases (#(phs1 (arg-1 arg-2))
-                                  #(phs2 (arg)))))))
+                                  #(phs2 (arg))))))))
+                                  #
 #(cfg-data (#(some (#(thing "else")
                     #(or "other")
                     #(can "be")
                     #(configured "here")))))
+
 `#(opt-1 (,(lutil:get-lfe-version)))
+
 `#(opt-2 (#(data-from-config ,(lcfg:get-in 'local '(cfg-data some can)))))
+
 #(logging (
    #(log-level info)
    #(backend lager)

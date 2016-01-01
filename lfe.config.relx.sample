@@ -7,10 +7,7 @@
      #(maintainers
       ((#(name "Alice Roberts") #(email "alice@bob.com"))))
      #(repos
-       (#(github "lfex/coolproj")))))
-   #(deps
-     (#("rvirding/lfe" "master")
-      #("lfex/lcfg" "master")))))
+       (#(github "lfex/coolproj")))))))
 
 ;;; See the following URL for details and comments on each configuration
 ;;; option:

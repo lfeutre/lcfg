@@ -11,13 +11,13 @@ HOST = $(shell scutil --get ComputerName)
 endif
 
 LIB = $(PROJECT)
-DEPS = ./deps
 BIN_DIR = ./bin
 SOURCE_DIR = ./src
 OUT_DIR = ./ebin
 TEST_DIR = ./test
 TEST_OUT_DIR = ./.eunit
-SCRIPT_PATH=$(DEPS)/lfe/bin:.:./bin:"$(PATH)":/usr/local/bin
+SCRIPT_PATH=./bin:"$(PATH)":/usr/local/bin
+REBAR = rebar3
 ifeq ($(shell which lfetool),)
 LFETOOL=$(BIN_DIR)/lfetool
 else
@@ -35,13 +35,9 @@ get-lfetool: $(BIN_DIR)
 	chmod 755 ./lfetool && \
 	mv ./lfetool $(BIN_DIR)
 
-copy-appsrc:
-	@mkdir -p $(OUT_DIR)
-	@cp src/$(PROJECT).app.src ebin/$(PROJECT).app
-
 get-version:
 	@echo "Erlang/OTP, LFE, & library versions:"
-	@ERL_LIBS=$(ERL_LIBS) PATH=$(SCRIPT_PATH) erl \
+	@erl \
 	-eval "lfe_io:format(\"~p~n\",['$(PROJECT)-util':'get-versions'()])." \
 	-noshell -s erlang halt
 
@@ -56,11 +52,6 @@ get-codepath:
 
 debug: get-erllibs get-codepath
 
-get-deps:
-	@echo "Getting dependencies ..."
-	@lfetool download deps || \
-	(which rebar.cmd >/dev/null 2>&1 && rebar.cmd get-deps || rebar get-deps)
-
 clean-ebin:
 	@echo "Cleaning ebin dir ..."
 	@rm -f $(OUT_DIR)/*.beam
@@ -69,68 +60,56 @@ clean-eunit:
 	-@PATH=$(SCRIPT_PATH) $(LFETOOL) tests clean
 
 compile-tests: clean-eunit
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests build
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) tests build
 
 repl: compile
 	@which clear >/dev/null 2>&1 && clear || printf "\033c"
 	@echo "Starting an LFE REPL ..."
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) repl lfe +pc unicode
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) repl lfe +pc unicode
 
 repl-no-deps: compile-no-deps
 	@which clear >/dev/null 2>&1 && clear || printf "\033c"
 	@echo "Starting an LFE REPL ..."
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) repl lfe +pc unicode
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) repl lfe +pc unicode
 
 shell: compile
 	@which clear >/dev/null 2>&1 && clear || printf "\033c"
 	@echo "Starting an Erlang shell ..."
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) erl +pc unicode
+	@erl +pc unicode
 
 shell-no-deps: compile-no-deps
 	@which clear >/dev/null 2>&1 && clear || printf "\033c"
 	@echo "Starting an Erlang shell ..."
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) erl +pc unicode
+	@erl +pc unicode
 
-compile: get-deps clean-ebin copy-appsrc
+compile: clean-ebin
 	@echo "Compiling project code and dependencies ..."
-	@which rebar.cmd >/dev/null 2>&1 && \
-	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar.cmd compile || \
-	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile
-	@make compile-appsrc
+	@$(REBAR) compile
 
 compile-no-deps: clean-ebin
 	@echo "Compiling only project code ..."
-	@which rebar.cmd >/dev/null 2>&1 && \
-	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) \
-	rebar.cmd compile skip_deps=true || \
-	PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) rebar compile skip_deps=true
-	@make compile-appsrc
-
-compile-appsrc:
-	@echo "Generating app.src file ..."
-	-@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) lfe -eval \
-	'(lcfg-appsrc:write "ebin/$(PROJECT).app")'
+	@$(REBAR) compile skip_deps=true
 
 clean: clean-ebin clean-eunit
-	@which rebar.cmd >/dev/null 2>&1 && rebar.cmd clean || rebar clean
+	@$(REBAR) clean
 
 check-unit-only: clean-eunit
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests unit
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) tests unit
 
 check-integration-only: clean-eunit
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests integration
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) tests integration
 
 check-system-only: clean-eunit
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests system
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) tests system
 
-check-unit-with-deps: get-deps compile compile-tests check-unit-only
+check-unit-with-deps: compile compile-tests check-unit-only
 check-unit: compile-no-deps check-unit-only
 check-integration: compile check-integration-only
 check-system: compile check-system-only
 check-all-with-deps: compile check-unit-only check-integration-only \
 	check-system-only
-check-all: get-deps compile-no-deps clean-eunit
-	@PATH=$(SCRIPT_PATH) ERL_LIBS=$(ERL_LIBS) $(LFETOOL) tests all
+check-all: compile-no-deps clean-eunit
+	@PATH=$(SCRIPT_PATH) $(LFETOOL) tests all
 
 check: check-unit-with-deps
 
