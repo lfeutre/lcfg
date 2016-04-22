@@ -4,23 +4,13 @@
 (include-lib "clj/include/compose.lfe")
 
 (defun get-version ()
-  (get-app-version 'lcfg))
+  (lr3-ver-util:get-app-version 'lcfg))
 
 (defun get-versions ()
-  (++ (lutil:get-versions)
-      `(#(lcfg ,(get-version)))))
-
-(defun get-app-version
-  ((name) (when (is_atom name))
-    (let* ((filename (++ (atom_to_list name) ".app"))
-           (filepath (code:where_is_file filename)))
-      (if (filelib:is_file filepath)
-          (get-app-version filepath)
-          'undefined)))
-  ((`#(ok (,app)))
-    (lcfg:get-in (element 3 app) '(vsn)))
-  ((filename) (when (is_list filename))
-    (get-app-version (file:consult filename))))
+  (++ (lr3-ver-util:get-versions)
+      `(#(kla ,(lr3-ver-util:get-app-version 'kla))
+        #(clj ,(lr3-ver-util:get-app-version 'clj))
+        #(lcfg ,(get-version)))))
 
 ;;; DEPRECATED - use lcfg:get/3 and lcfg:get-in/3 instead
 (defun set-default (result default)
