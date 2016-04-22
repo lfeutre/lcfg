@@ -2,8 +2,8 @@
 
 [![][lcfg-logo]][lcfg-logo-large]
 
-[lcfg-logo]: resources/images/Illustration_Ficus_carica0-small.jpg
-[lcfg-logo-large]: resources/images/Illustration_Ficus_carica0.jpg
+[lcfg-logo]: priv/images/Illustration_Ficus_carica0-small.jpg
+[lcfg-logo-large]: priv/images/Illustration_Ficus_carica0.jpg
 
 *The LFE library for managing and using lfe.config files*
 
