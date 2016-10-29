@@ -1,16 +1,12 @@
 (defmodule lcfg-util
   (export all))
 
-(include-lib "clj/include/compose.lfe")
-
 (defun get-version ()
   (lr3-ver-util:get-app-version 'lcfg))
 
 (defun get-versions ()
   (++ (lr3-ver-util:get-versions)
-      `(#(kla ,(lr3-ver-util:get-app-version 'kla))
-        #(clj ,(lr3-ver-util:get-app-version 'clj))
-        #(lcfg ,(get-version)))))
+      `(#(lcfg ,(get-version)))))
 
 ;;; DEPRECATED - use lcfg:get/3 and lcfg:get-in/3 instead
 (defun set-default (result default)
@@ -87,9 +83,9 @@
     (code:where_is_file filename)))
 
 (defun get-appdir (app-name)
-  (->> (get-appsrc app-name)
-       (filename:dirname)
-       (filename:dirname)))
+  (clj:->> (get-appsrc app-name)
+           (filename:dirname)
+           (filename:dirname)))
 
 (defun get-rebarcfg (app-name)
   (filename:flatten `(,(get-appdir app-name) / rebar.config)))
@@ -101,3 +97,12 @@
   (let* ((fullpath (get-depsdir app-name))
          (`#(ok ,names) (file:list_dir fullpath)))
     (lists:map #'list_to_atom/1 names)))
+
+(defun undefined? (x)
+  (=:= x 'undefined))
+
+(defun undef? (x)
+(=:= x 'undefined))
+
+(defun defined? (x)
+  (not (undefined? x)))

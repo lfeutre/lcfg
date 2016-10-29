@@ -1,12 +1,9 @@
 (defmodule lcfg-file
   (export all))
 
-(include-lib "clj/include/compose.lfe")
-(include-lib "clj/include/predicates.lfe")
-
 (defun read-config
   ((`#(ok ,config-data))
-    (lists:filter #'tuple?/1 config-data))
+    (lists:filter #'clj:tuple?/1 config-data))
   ;; If the file doesn't exist, let's just return an empty list
   ((`#(error #(none file enoent)))
     '())
@@ -34,33 +31,33 @@
   (('global) (read-global)))
 
 (defun read-global ()
-  (->> (lcfg-const:global-config)
-       (lutil-file:expand-home-dir)
-       (read-file)
-       (read-config)))
+  (clj:->> (lcfg-const:global-config)
+           (lutil-file:expand-home-dir)
+           (read-file)
+           (read-config)))
 
 (defun read-local ()
-  (->> (lcfg-const:local-config)
-       (filename:join (get-cwd))
-       (read-file)
-       (read-config)))
+  (clj:->> (lcfg-const:local-config)
+           (filename:join (get-cwd))
+           (read-file)
+           (read-config)))
 
 (defun parse ()
-  (->> (local-or-global)
-       (read-file)
-       (parse-config)))
+  (clj:->> (local-or-global)
+           (read-file)
+           (parse-config)))
 
 (defun parse-global ()
-  (->> (lcfg-const:global-config)
-       (home-or-release)
-       (read-file)
-       (parse-config)))
+  (clj:->> (lcfg-const:global-config)
+           (home-or-release)
+           (read-file)
+           (parse-config)))
 
 (defun parse-local ()
-  (->> (lcfg-const:local-config)
-       (filename:join (get-cwd))
-       (read-file)
-       (parse-config)))
+  (clj:->> (lcfg-const:local-config)
+           (filename:join (get-cwd))
+           (read-file)
+           (parse-config)))
 
 (defun home-or-release ()
   (home-or-release (lcfg-const:global-config)))

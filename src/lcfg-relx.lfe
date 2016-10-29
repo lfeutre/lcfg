@@ -7,9 +7,6 @@
 (defmodule lcfg-relx
   (export all))
 
-(include-lib "clj/include/compose.lfe")
-(include-lib "clj/include/predicates.lfe")
-
 (defun write ()
   (write "relx.config"))
 
@@ -36,26 +33,26 @@
      (result `#(relx ,(add-defaults result config))))))
 
 (defun extract-relx-data (config)
-  (->> `(,(get-paths config)
-         ,(get-vm-args config)
-         ,(get-sys-config config)
-         ,(get-include-erts config)
-         ,(get-extended-start-script config)
-         ,(get-default-release config)
-         ,(get-release config)
-         ,(get-overrides config)
-         ,(get-overlay-vars config)
-         ,(get-overlay config)
-         ,(get-lib-dirs config)
-         ,(get-providers config))
+  (clj:->> `(,(get-paths config)
+             ,(get-vm-args config)
+             ,(get-sys-config config)
+             ,(get-include-erts config)
+             ,(get-extended-start-script config)
+             ,(get-default-release config)
+             ,(get-release config)
+             ,(get-overrides config)
+             ,(get-overlay-vars config)
+             ,(get-overlay config)
+             ,(get-lib-dirs config)
+             ,(get-providers config))
        (filter-non-tuples)
        (filter-undefined)))
 
 (defun add-defaults (relx config)
-  (-> relx
-      (add-release config)
-      ;; add more here
-      ))
+  (clj:-> relx
+          (add-release config)
+          ;; add more here
+          ))
 
 (defun add-release (relx config)
   (if (has-release? config)
@@ -63,10 +60,10 @@
     (++ relx `(,(get-release config)))))
 
 (defun filter-non-tuples (data)
-  (lists:filter (lambda (x) (tuple? x)) data))
+  (lists:filter (lambda (x) (clj:tuple? x)) data))
 
 (defun filter-undefined (data)
-  (lists:filter (lambda (x) (not (undefined? (element 2 x)))) data))
+  (lists:filter (lambda (x) (lcfg-util:defined? (element 2 x))) data))
 
 (defun get
   (((= `(relx ,key) keys) default config)

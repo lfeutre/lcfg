@@ -27,7 +27,9 @@
       ;; runtime_dependencies will be skipped until it's declared
       ;; as stabilized by the OTP team
       ;;#(runtime_dependencies ,(lcfg:get-in config 'project 'app 'runtime-dependencies))
-      )))
+      ;;
+      ;; Hex.pm config options
+      (get-hex config))))
 
 (defun get-modules (config)
   (lcfg-util:set-default
@@ -60,6 +62,9 @@
   (lcfg-util:set-default
     (lcfg:get-in config '(project app env))
     '()))
+
+(defun get-hexpm (config)
+  (lcfg-hexpm:->appsrc (lcfg:get-in config '(hexpm))))
 
 (defun get-mod (config)
   (lcfg-util:set-default
