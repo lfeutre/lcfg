@@ -2,7 +2,7 @@
 {application, lcfg,
  [
   %% A quick description of the application.
-  {description, "A library for managing and using lfe.config files"},
+  {description, "An LFE library for managing and using lfe.config files"},
 
   %% The version of the application
   {vsn, "0.5.0-rc1"},
