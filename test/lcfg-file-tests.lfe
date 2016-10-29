@@ -10,7 +10,9 @@
 (deftest check-contents
   (is-equal '(#(a 1) #(b 2)) (lcfg-file:check-contents '(#(a 1) #(b 2)))))
 
-(deftest check-contents-fail-content-check
+;; XXX Once the following issue is resolved, this test can be un-skipped:
+;;     * https://github.com/lfex/lcfg/issues/15
+(deftestskip check-contents-fail
   (try
     (progn
       (lcfg-file:check-contents '(1 #(b 2)))
