@@ -1,6 +1,5 @@
 (defmodule lcfg-relx-tests
-  (behaviour ltest-unit)
-  (export all))
+  (behaviour ltest-unit))
 
 (include-lib "ltest/include/ltest-macros.lfe")
 

@@ -1,6 +1,5 @@
 (defmodule lcfg-file-tests
   (behaviour ltest-unit)
-  (export all)
   (import
     (from ltest
       (check-failed-is 2)
