@@ -1,9 +1,9 @@
 # lcfg
 
-[![][lcfg-logo]][lcfg-logo-large]
+[![][logo]][logo-large]
 
-[lcfg-logo]: priv/images/Illustration_Ficus_carica0-small.jpg
-[lcfg-logo-large]: priv/images/Illustration_Ficus_carica0.jpg
+[logo]: priv/images/Illustration_Ficus_carica0-small.jpg
+[logo-large]: priv/images/Illustration_Ficus_carica0.jpg
 
 *The LFE library for managing and using lfe.config files*
 
@@ -292,3 +292,9 @@ One can do this:
  #(opt-1 ("0.9.0"))
  #(opt-2 (#(data-from-config "be"))))
 ```
+
+## License [&#x219F;](#contents)
+
+Apache Version 2 License
+
+Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
