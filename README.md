@@ -16,7 +16,6 @@
   * [project](#project-)
     * [deps](#deps-)
     * [meta](#meta-)
-  * [logging](#logging-)
   * [app.src](#app.src-)
   * [relx](#relx-)
   * [Functions in config files](#functions-in-config-files-)
@@ -182,22 +181,6 @@ Here is an example:
 ```
 
 If you also declare ``deps`` just know that ``meta`` and ``deps`` are siblings (keys in the same property list).
-
-
-### ``logging`` [&#x219F;](#contents)
-
-lcfg supports logging configuration. Currently the only supported logging
-backend is [lager](https://github.com/basho/lager). The top-level ``logging``
-configuration option has three sub-options:
-
- * ``log-level``
- * ``backend``
- * ``options``
-
-The last is what gets passed to the logging backend (e.g., lager). As such,
-it needs to hold all the information with which you want your backend to be
-configured. See the [sample lfe.config file](lfe.config.sample) for a
-working example of a lager configuration.
 
 
 ### ``app.src`` [&#x219F;](#contents)
