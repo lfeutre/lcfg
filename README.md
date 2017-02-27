@@ -1,9 +1,12 @@
 # lcfg
 
-[![][logo]][logo-large]
+[![Build Status][travis badge]][travis] 
+[![LFE Versions][lfe badge]][lfe] 
+[![Erlang Versions][erlang badge]][versions] 
+[![Tags][github tags badge]][github tags] 
+[![Downloads][hex downloads]][hex package]
 
-[logo]: priv/images/Illustration_Ficus_carica0-small.jpg
-[logo-large]: priv/images/Illustration_Ficus_carica0.jpg
+[![][logo]][logo-large]
 
 *The LFE library for managing and using lfe.config files*
 
@@ -281,3 +284,25 @@ One can do this:
 Apache Version 2 License
 
 Copyright © 2013-2016, Duncan McGreggor <oubiwann@gmail.com>
+
+
+[](Named page links below ...)
+
+[logo]: priv/images/Illustration_Ficus_carica0-small.jpg
+[logo-large]: priv/images/Illustration_Ficus_carica0.jpg
+[screenshot]: priv/images/screenshot.png
+[org]: https://github.com/lfex
+[github]: https://github.com/lfex/lcfg
+[gitlab]: https://gitlab.com/lfex/lcfg
+[travis]: https://travis-ci.org/lfex/lcfg
+[travis badge]: https://img.shields.io/travis/lfex/lcfg.svg
+[lfe]: https://github.com/rvirding/lfe
+[lfe badge]: https://img.shields.io/badge/lfe-1.2.0-blue.svg
+[erlang badge]: https://img.shields.io/badge/erlang-R15%20to%2019.1-blue.svg
+[versions]: https://github.com/lfex/lcfg/blob/master/.travis.yml
+[github tags]: https://github.com/lfex/lcfg/tags
+[github tags badge]: https://img.shields.io/github/tag/lfex/lcfg.svg
+[github downloads]: https://img.shields.io/github/downloads/lfex/lcfg/total.svg
+[hex badge]: https://img.shields.io/hexpm/v/lcfg.svg?maxAge=2592000
+[hex package]: https://hex.pm/packages/lcfg
+[hex downloads]: https://img.shields.io/hexpm/dt/lcfg.svg
