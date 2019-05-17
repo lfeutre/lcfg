@@ -59,7 +59,7 @@ to your ``rebar.config`` like so:
 
 ```erlang
    ...
-   {lcfg, ".*", {git, "git://github.com/lfex/lcfg.git", "master"}},
+   {lcfg, {git, "git://github.com/lfex/lcfg.git", "master"}},
    ...
 ```
 
