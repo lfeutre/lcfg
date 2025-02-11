@@ -1,0 +1,13 @@
+(#(tasker
+   (#(tasks ((#(name "Example Task (regular date check)")
+              #(cmd "date")
+              #(args ())
+              #(interval 4))
+             (#(name "Example Task (regular test message)")
+              #(cmd "echo")
+              #(args ("this is a test"))
+              #(interval 10))
+             (#(name "Example Task (remote command)")
+              #(cmd "ssh")
+              #(args ("raspberrypi.local" "-C" "'unama -a'"))
+              #(interval 20)))))))
