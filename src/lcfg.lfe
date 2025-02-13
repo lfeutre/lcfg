@@ -1,6 +1,18 @@
 (defmodule lcfg
   (export all))
 
+(defun default-precedence (app-atom)
+  ;; ordering is least-significant to most; in other words, data sources further
+  ;; down the list override prior items, towards the top of the list.
+  (let ((app-str (atom_to_list app-atom)))
+    `(#(env app-atom)
+      #(file ,(filename:join (list (dirs:config) app-str "config" (++ app-str ".toml"))))
+      #(file ,(filename:join (list (dirs:config) app-str "config" (++ app-str ".lfe"))))
+      #(file ,(filename:join (list (dirs:config) app-str "config" (++ app-str ".config"))))
+      #(file ,(++ "./" app-str ".toml"))
+      #(file ,(++ "./" app-str ".lfe"))
+      #(file ,(++ "./" app-str ".config")))))
+
 (defun appenv (app-atom)
   (epl:to_map (application:get_all_env app-atom)))
 
