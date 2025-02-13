@@ -21,7 +21,7 @@
 
 The origins of lcfg lay in a prehistoric desire to configure LFE projects in the S-expressions of LFE syntax, as opposed to the config syntax of Erlang. That initial impetus sputtered and the finally died a mere 3-4 years after lcfg's inception.
 
-Since then, many LFE projects have foundered on, written, rewritten, or re-invented various means of pulling configuration data from both Erlang and non-Erlang sources. This new use case is where lcfg now applies itself as a potential solution.
+Since then, many LFE projects have foundered on, written, rewritten, or re-invented various means of pulling configuration data from both Erlang and non-Erlang sources. Addressing some of the issues inherent in those efforts is the new use case to which lcfg now applies itself as a potential solution.
 
 This project is currently in the process of being rewritten from scratch; to track the progress, view this ticket:
 * https://github.com/lfeutre/lcfg/issues/25
@@ -74,7 +74,7 @@ Copyright © 2013-2025, Duncan McGreggor <oubiwann@gmail.com>
 [gh-actions]: https://github.com/lfeutre/lcfg/actions
 [lfe]: https://github.com/lfe/lfe
 [lfe-badge]: https://img.shields.io/badge/lfe-2.2+-blue.svg
-[erlang-badge]: https://img.shields.io/badge/erlang-21%20to%2027-blue.svg
+[erlang-badge]: https://img.shields.io/badge/erlang-23%20to%2027-blue.svg
 [versions]: https://github.com/lfeutre/dirs/blob/main/rebar.config
 [github-tags]: https://github.com/lfeutre/lcfg/tags
 [github-tags-badge]: https://img.shields.io/github/tag/lfeutre/lcfg.svg

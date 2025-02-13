@@ -60,3 +60,27 @@ structure.
     (is-equal 'value1 (clj:get-in result '(example1 key1)))
     (is-equal 'value2 (clj:get-in result '(example1 key2)))
     (is-equal 'value3 (clj:get-in result '(example2 key3)))))
+
+(deftest file-erlang
+  (lcfg:start)
+  (let ((result (lcfg:file "priv/examples/erlang.config" 'lcfg)))
+    (is-equal 'value1 (clj:get-in result '(example1 key1)))
+    (is-equal 'value2 (clj:get-in result '(example1 key2)))
+    (is-equal 'value3 (clj:get-in result '(example2 key3)))
+    (is-equal 'value4 (clj:get-in result '(example3 example4 key4)))))
+
+(deftest file-lfe
+  (lcfg:start)
+  (let ((result (lcfg:file "priv/examples/config.lfe" 'lcfg)))
+    (is-equal 'value-1 (clj:get-in result '(example-1 key-1)))
+    (is-equal 'value-2 (clj:get-in result '(example-1 key-2)))
+    (is-equal 'value-3 (clj:get-in result '(example-2 key-3)))
+    (is-equal 'value-4 (clj:get-in result '(example-3 example-4 key-4)))))
+
+(deftest file-toml
+  (lcfg:start)
+  (let ((result (lcfg:file "priv/examples/config.toml" 'lcfg)))
+    (is-equal #"value1" (bombadil:get-in result '(example1 key1)))
+    (is-equal #"value2" (bombadil:get-in result '(example1 key2)))
+    (is-equal #"value3" (bombadil:get-in result '(example2 key3)))
+    (is-equal #"value4" (bombadil:get-in result '(example3 example4 key4)))))
