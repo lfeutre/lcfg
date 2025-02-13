@@ -6,7 +6,7 @@
 [![Tags][github-tags-badge]][github-tags]
 [![Downloads][hex-downloads]][hex-package]
 
-*An LFE library for reading, writing, and merging Erlang, LFE, and TOML configuration data*
+*An Erlang/LFE library for reading, writing, and merging Erlang, LFE, and TOML configuration data*
 
 [![Project Logo][logo]][logo-large]
 
@@ -15,6 +15,7 @@
 
 * [Introduction](#introduction-)
 * [Usage](#usage-)
+* [Development](#development-)
 * [License](#license-)
 
 ## Introduction [&#x219F;](#contents)
