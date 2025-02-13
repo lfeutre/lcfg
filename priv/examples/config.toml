@@ -1,0 +1,6 @@
+[lcfg.example1]
+key1 = value1
+key2 = value2
+
+[lcfg.example2]
+key3 = value3
