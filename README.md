@@ -30,6 +30,33 @@ This project is currently in the process of being rewritten from scratch; to tra
 
 TBD
 
+## Development [&#x219F;](#contents)
+
+If working on this library and you want to test some Erlang functionality interactively:
+
+``` sh
+./bin/lcfg-erl -config ./priv/examples/erlang.config
+```
+
+``` erlang
+1> lcfg:appenv(lcfg).
+#{example1 => #{key1 => value1,key2 => value2},
+  example2 => #{key3 => value3},
+  example3 => #{example4 => #{key5 => value5}}}
+```
+
+Similarly, for LFE functionality:
+
+``` sh
+./bin/lcfg-lfe -config ./priv/examples/erlang.config
+```
+
+``` lisp
+lfe> (lcfg:appenv 'lcfg)
+#M(example1 #M(key1 value1 key2 value2) example2 #M(key3 value3)
+   example3 #M(example4 #M(key5 value5)))
+```
+
 ## License [&#x219F;](#contents)
 
 Apache License, Version 2.0

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+./_build/default/lib/lfe/bin/lfe \
+    -pa $(rebar3 path) \
+    -run lcfg start \
+    $@

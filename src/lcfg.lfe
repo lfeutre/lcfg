@@ -4,6 +4,9 @@
 (defun appenv (app-atom)
   (epl:to_map (application:get_all_env app-atom)))
 
+(defun start ()
+  (application:ensure_all_started 'lcfg))
+
 (defun version ()
   (lcfg-vsn:get))
 

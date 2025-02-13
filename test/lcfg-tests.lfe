@@ -55,7 +55,7 @@ Note, however, that it does normalise all of these to the Erlang map data
 structure.
 |#
 (deftest appenv
-  (application:ensure_all_started 'lcfg)
+  (lcfg:start)
   (let ((result (lcfg:appenv 'lcfg))) 
     (is-equal 'value1 (clj:get-in result '(example1 key1)))
     (is-equal 'value2 (clj:get-in result '(example1 key2)))

@@ -4,3 +4,6 @@ key2 = value2
 
 [lcfg.example2]
 key3 = value3
+
+[lcfg.example3.example4]
+key4 = value4
