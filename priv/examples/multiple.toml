@@ -1,17 +1,17 @@
-[tasker.tasks.1]
+[someapp.things.1]
 name = "Example Task (repeating date check)"
 cmd = "date"
 args = []
 interval = 4
 
-[tasker.tasks.2]
+[someapp.things.2]
 name = "Example Task (repeating test message)"
 cmd = "echo"
 args = ["this is a test"]
 interval = 10
 
-[tasker.tasks.3]
+[someapp.things.3]
 name = "Example Task (remote command)"
 cmd = "ssh"
-args = ["raspberrypi.local", "-C", "'unama -a'"]
+args = ["raspberrypi.local", "-C", "'uname -a'"]
 interval = 20
