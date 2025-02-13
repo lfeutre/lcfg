@@ -56,4 +56,7 @@ structure.
 |#
 (deftest appenv
   (application:ensure_all_started 'lcfg)
-  (is-equal 1 (lcfg:appenv 'lcfg)))
+  (let ((result (lcfg:appenv 'lcfg))) 
+    (is-equal 'value1 (clj:get-in result '(example1 key1)))
+    (is-equal 'value2 (clj:get-in result '(example1 key2)))
+    (is-equal 'value3 (clj:get-in result '(example2 key3)))))

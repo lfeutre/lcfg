@@ -11,7 +11,13 @@
     stdlib
   ]},
   {included_applications, []},
-  {env, [{stuff, [{}]}]},
+  {env, [
+    {example1, [
+      {key1, value1},
+      {key2, value2}
+    ]},
+    {example2, [{key3, value3}]}
+  ]},
 
   %% Package metadata:
   {pkg_name, lcfg},
