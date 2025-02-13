@@ -11,7 +11,7 @@
     stdlib
   ]},
   {included_applications, []},
-  {env, []},
+  {env, [{stuff, [{}]}]},
 
   %% Package metadata:
   {pkg_name, lcfg},
