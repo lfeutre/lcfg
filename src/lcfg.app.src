@@ -1,7 +1,7 @@
 {application, lcfg,
  [
-  {description, "An Erlang/LFE library for reading, writing, and merging Erlang, LFE, and TOML configuration data"},
-  {vsn, "0.6.0"},
+  {description, "An Erlang/LFE library for reading and merging Erlang, LFE, and TOML configuration data"},
+  {vsn, "0.6.1"},
   {modules, [
     lcfg
   ]},
