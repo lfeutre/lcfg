@@ -36,7 +36,7 @@
 
 (defun load
   (((= `#m(app ,app-atom use-first true use-env true) opts) precedence)
-   (lcfg-maps:merge-nested (list (appenv app-atom) (load-first opts precedence))))
+   (lcfg-maps:merge-nested (appenv app-atom) (load-first opts precedence)))
   (((= `#m(app ,app-atom use-all true) opts) precedence)
    (lcfg-maps:merge-nested (load-all opts precedence))))
 
@@ -44,6 +44,10 @@
   (case (load-all opts precedence)
     ('() #m())
     (maps (car maps))))
+
+(defun load-all (app-atom)
+  (load-all (lcfg-maps:merge (default-options) `#m(app ,app-atom))
+            (default-precedence app-atom)))
 
 (defun load-all
   (((= `#m(app ,app-atom) opts) precedence)

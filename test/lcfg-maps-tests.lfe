@@ -19,7 +19,9 @@
   (let ((m1 #m(a 1 b 2 c 3 e 6))
         (m2 #m(b 3 c 4 d 5)))
     (is-equal #m(a 1 b 3 c 4 d 5 e 6)
-              (lcfg-maps:merge-nested m1 m2))))
+              (lcfg-maps:merge-nested m1 m2))
+    (is-equal #m(a 1 b 3 c 4 d 5 e 6)
+              (lcfg-maps:merge-nested (list m1 m2)))))
 
 (deftest merge-nested-deep
   (let ((m1 #m(a 1
@@ -38,4 +40,11 @@
                  k #m(l #m(m #m(n #m(o #m(p #m(q 8 r 20))))))
                  x 40
                  z 99)
-              (lcfg-maps:merge-nested m1 m2))))
+              (lcfg-maps:merge-nested m1 m2))
+    (is-equal #m(a 1
+                 b #m(c 30 d 3 e #m(f 4 g #m(h 10 i 10)))
+                 j 70
+                 k #m(l #m(m #m(n #m(o #m(p #m(q 8 r 20))))))
+                 x 40
+                 z 99)
+              (lcfg-maps:merge-nested (list m1 m2)))))

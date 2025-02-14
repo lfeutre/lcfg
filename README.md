@@ -24,12 +24,96 @@ The origins of lcfg lay in a prehistoric desire to configure LFE projects in the
 
 Since then, many LFE projects have foundered on, written, rewritten, or re-invented various means of pulling configuration data from both Erlang and non-Erlang sources. Addressing some of the issues inherent in those efforts is the new use case to which lcfg now applies itself as a potential solution.
 
-This project is currently in the process of being rewritten from scratch; to track the progress, view this ticket:
-* https://github.com/lfeutre/lcfg/issues/25
+So what does this project provide for LFE and Erlang developers?
+
+* The ability to read application configuration data (as a map) from multiple sources -- current working directory, OS-standard configuration directories, via a file passed to the Erlang VM via `-config` from release config files (e.g., `sys.config`), and from a project's `app.src` file (the `env` key).
+* The ability to do all of this with a single function.
+* The option of reading from all possible sources and recursively merging the config data.
+* The option of reading from just one, or just one merged with the project's `env` data.
+
+There are a few more features, but those are the broad strokes.
 
 ## Usage [&#x219F;](#contents)
 
-TBD
+Note that the examples here are taken from an LFE REPL session started with `rebar3 lfe repl`.
+
+Show the default list of files that are searched for and read (if present) for configuration data:
+
+``` lisp
+lfe> (lcfg:show-paths 'lcfg)
+"./lcfg.config"
+"./lcfg.lfe"
+"./lcfg.toml"
+"/Users/oubiwann/Library/Application Support/lcfg/config/lcfg.config"
+"/Users/oubiwann/Library/Application Support/lcfg/config/lcfg.lfe"
+"/Users/oubiwann/Library/Application Support/lcfg/config/lcfg.toml"
+```
+
+The files at the top of that list have the most precedence, with the configuration data in them overriding key/values of other files, including data pulled from the application's `env`.
+
+To view an application's `env` data:
+
+``` lisp
+lfe> (lcfg:start)
+lfe> (lcfg:appenv 'lcfg)
+#M(example1 #M(key1 value1 key2 value2) example2 #M(key3 value3))
+```
+
+To see the default options used for reading configuration data from various sources:
+
+``` lisp
+lfe> (lcfg:default-options)
+#M(app undefined
+   use-first true 
+   use-env true 
+   use-all false)
+```
+
+Both these options and the precedence paths listed above may be overridden in functions, allowing developers to define their own default options and orders of precedence for files and application `env` data.
+
+Note that:
+* by default, the first highest-precedence configuration file that is found will be used and merged with the application `env` data.
+* by enabling `use-all` and disabling `use-first`, _all_ configuration files found will be parsed, and the subsequent maps merged in order of precedence.
+* the application `env` data found in a configuration file (e.g., using the `-config` options) will be merged with -- but override duplicate values in -- the application's `app.src` config data in `env`.
+
+More examples ... load application data using all the defaults:
+
+``` lisp
+lfe> (lcfg:load 'myapp)
+```
+
+Override default options:
+
+``` lisp
+lfe> (set opts   #m(app undefined
+                    use-all true
+                    use-env true
+                    use-first false))
+lfe> (lcfg:load 'myapp opts)
+```
+
+Override default precedence:
+
+``` lisp
+lfe> (set prec (++ (lcfg:default-precedence 'myapp) (list "~/.config/myapp.toml")))
+lfe> (lcfg:load 'myapp opts prec)
+```
+
+And lastly, some functions that may come in handy when setting up configuration files on your system:
+
+``` lisp
+lfe> (lcfg:copy "priv/examples/erlang.config" 'lcfg)
+#M(result #(ok 180)
+   path "/Users/oubiwann/Library/Application Support/lcfg/config/lcfg.config")
+```
+
+and
+
+``` lisp
+lfe> (lcfg:move "my-config.toml" 'myapp)
+#M(result #(ok 294)
+   path "/Users/oubiwann/Library/Application Support/myapp/config/myapp.toml")
+```
 
 ## Development [&#x219F;](#contents)
 
