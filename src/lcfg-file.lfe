@@ -24,7 +24,7 @@
                  (".toml" (read-toml filename opts))
                  (_ #(error unsupported-format)))))
      (case data
-       (`#(ok ,data) (mref (epl:to_map data) app-atom))
+       (`#(ok ,data) (mref (lcfg-maps:from-list-nested data) app-atom))
        (`#(ok-map ,data) (bombadil:get data app-atom))
        (err err)))))
 

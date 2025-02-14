@@ -9,7 +9,16 @@
   (lists:filter (lambda (x) (> (map_size x) 0)) maps))
 
 (defun from-list-nested (proplist)
-  (epl:to_map proplist))
+  (lists:foldl
+   (match-lambda
+     ((`#(,k ,v) acc) (when (is_list v))
+      (case (clj:proplist? v)
+        ('false (maps:put k v acc))
+        ('true (maps:put k (from-list-nested v) acc))))
+     ((`#(,k ,v) acc)
+      (maps:put k v acc)))
+   #m()
+   proplist))
 
 (defun merge (map1 map2)
   (maps:merge map1 map2))
