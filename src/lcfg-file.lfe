@@ -1,6 +1,20 @@
 (defmodule lcfg-file
-  (export
-   (read 2)))
+  (export all))
+
+(defun dir-name (app-atom)
+  (filename:join (list (dirs:config) (atom_to_list app-atom) "config")))
+
+(defun file-name (app-atom ext)
+  (++ (atom_to_list app-atom) ext))
+
+(defun full-path (app-atom ext)
+  (filename:join (dir-name app-atom) (file-name app-atom ext)))
+
+(defun dest-path (source app-atom)
+  (let ((path (full-path app-atom
+                         (filename:extension source))))
+    (filelib:ensure_dir path)
+    path))
 
 (defun read
   ((filename (= `#m(app ,app-atom) opts))
