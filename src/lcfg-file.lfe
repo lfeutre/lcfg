@@ -29,16 +29,16 @@
        (err err)))))
 
 (defun read-erlang (filename _opts)
-  (case (file:consult filename)
+  (case (file:consult (lutil-file:expand-home-dir filename))
     (`#(ok (,data)) `#(ok ,data))
     (err err)))
 
 (defun read-lfe (filename _opts)
-  (case (lfe_io:read_file filename)
+  (case (lfe_io:read_file (lutil-file:expand-home-dir filename))
     (`#(ok (,data)) `#(ok ,data))
     (err err)))
 
 (defun read-toml (filename _opts)
-  (case (bombadil:read filename)
+  (case (bombadil:read (lutil-file:expand-home-dir filename))
     (`#(ok ,data) `#(ok-map ,data))
     (err err)))

@@ -74,7 +74,7 @@ Both these options and the precedence paths listed above may be overridden in fu
 Note that:
 * by default, the first highest-precedence configuration file that is found will be used and merged with the application `env` data.
 * by enabling `use-all` and disabling `use-first`, _all_ configuration files found will be parsed, and the subsequent maps merged in order of precedence.
-* the application `env` data found in a configuration file (e.g., using the `-config` options) will be merged with -- but override duplicate values in -- the application's `app.src` config data in `env`.
+* the application `env` data found in a configuration file (e.g., using the `-config` options) will be merged with -- but override the values of duplicate keys in -- the application's `app.src` config data in `env`.
 
 More examples ... load application data using all the defaults:
 
